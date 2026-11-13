@@ -3079,6 +3079,11 @@ const Welcome = {
       if (audioCtx.state === 'suspended') audioCtx.resume();
     } catch(e) {}
     Object.keys(VOICE_FILES).forEach(k => this.decode(k));
+    // le lecteur de la playlist aussi (iPhone : sinon il refuse de démarrer tout seul plus tard)
+    try {
+      const pa = Playlist.el(); pa.src = PLAYLIST.tracks[0].src; pa.muted = true;
+      const pr = pa.play(); if (pr && pr.then) pr.then(() => { pa.pause(); pa.currentTime = 0; pa.muted = false; }).catch(() => { pa.muted = false; });
+    } catch(e) {}
     // pendant le clic, on « débloque » aussi le lecteur audio de chaque voix (iPhone : sinon il refuse de jouer plus tard)
     Object.entries(VOICE_FILES).forEach(([k, src]) => {
       if (!src || this.els[k]) return;
@@ -3135,6 +3140,8 @@ const Welcome = {
       setTimeout(() => {
         showAnnonce(SITE_EXPLAIN, 30000);
         clearTimeout(this.tipT); this.tipT = setTimeout(annonce, 31500);   // puis le conseil de la maison
+        // le concept est expliqué : la Playlist 1 démarre toute seule, dans un ordre aléatoire
+        if (Sound.on && !Radio.station){ try { Radio.play('playlist'); } catch(e) {} }
       }, Sound.on ? 0 : 6000);   // sans son, on laisse le temps de lire l'accueil
     }), 1200);
   },
@@ -5145,7 +5152,7 @@ const Playlist = {
     const a = this.au = new Audio(); a.preload = 'none'; a.volume = this.VOL;
     a.addEventListener('playing', () => { this.fails = 0; Radio.paint(); });
     a.addEventListener('pause', () => Radio.paint());
-    a.addEventListener('ended', () => this.go(this.i + 1));
+    a.addEventListener('ended', () => this.go(this.randomNext()));
     a.addEventListener('timeupdate', () => this.time());
     a.addEventListener('loadedmetadata', () => this.time());
     a.addEventListener('error', () => this.fail());
@@ -5169,7 +5176,7 @@ const Playlist = {
         <details class="pl-list"><summary>Les ${n} morceaux · ${total} min</summary><ol>${PLAYLIST.tracks.map((t, k) =>
           `<li><button type="button" data-i="${k}"><span class="pl-n">${k + 1}</span><span class="pl-t">${this.esc(t.t)}</span><span class="pl-d">${this.fmt(t.d)}</span></button></li>`).join('')}</ol></details>`;
       h.querySelector('.pl-prev').onclick = () => this.prev();
-      h.querySelector('.pl-next').onclick = () => this.go(this.i + 1);
+      h.querySelector('.pl-next').onclick = () => this.go(this.randomNext());
       h.querySelector('.pl-play').onclick = () => this.playing() ? this.pause() : this.resume();
       h.querySelectorAll('.pl-list li button').forEach(b => b.onclick = () => this.go(+b.dataset.i));
     });
@@ -5185,7 +5192,13 @@ const Playlist = {
         artwork: [{ src: 'icons/icon-512.png', sizes: '512x512', type: 'image/png' }] });
     } catch(e) {}
   },
-  start(){ this.load(this.i, true); },
+  // ordre aléatoire : un morceau au hasard au démarrage, puis un autre au hasard (jamais le même deux fois de suite)
+  randomNext(){
+    const n = PLAYLIST.tracks.length; let k;
+    do { k = Math.floor(Math.random() * n); } while (n > 1 && k === this.i);
+    return k;
+  },
+  start(){ this.load(Math.floor(Math.random() * PLAYLIST.tracks.length), true); },
   load(i, play){
     const n = PLAYLIST.tracks.length; this.i = ((i % n) + n) % n;
     this.el().src = PLAYLIST.tracks[this.i].src;

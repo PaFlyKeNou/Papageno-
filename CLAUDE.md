@@ -65,7 +65,7 @@ Exemple : l'encadré 3114 cachait le panier du rayon Exclusif. Il n'a pas été 
    - tout marche au clavier (Tab, Entrée, Échap) ;
    - aucune erreur dans la console ;
    - contraste du texte d'au moins 4,5:1.
-6. À chaque nouvelle version mise en ligne : changer `VERSION` dans `sw.js` (actuellement `papageno-v11`, la prochaine sera `papageno-v12`), sinon les téléphones gardent l'ancienne version. Ajouter une ligne « Nouveautés » dans `LISEZ-MOI.txt`.
+6. À chaque nouvelle version mise en ligne : changer `VERSION` dans `sw.js` (actuellement `papageno-v12`, la prochaine sera `papageno-v13`), sinon les téléphones gardent l'ancienne version. Ajouter une ligne « Nouveautés » dans `LISEZ-MOI.txt`.
 
 ## Mise en ligne
 

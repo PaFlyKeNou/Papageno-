@@ -1,4 +1,4 @@
-PAPAGENO · L'APPLICATION MOBILE (version 11)
+PAPAGENO · L'APPLICATION MOBILE (version 12)
 ============================================
 
 Ce dossier contient l'application mobile de Papageno.
@@ -10,6 +10,10 @@ Une fois installée, Papageno :
 - s'ouvre en plein écran, comme une vraie appli ;
 - reste ouverte même sans réseau (la boutique, le bocal, la radio « Musique douce » et « La mer »,
   les voix d'accueil et d'au revoir). La « Playlist 1 » se joue avec une connexion internet.
+
+Nouveautés de la version 12 :
+- La Playlist 1 démarre toute seule quand l'explication d'accueil apparaît (son activé).
+- Ordre aléatoire : un morceau au hasard au départ, puis les suivants au hasard.
 
 Nouveautés de la version 11 :
 - Accueil : une fois la voix de bienvenue terminée, une annonce explique à quoi sert le site
