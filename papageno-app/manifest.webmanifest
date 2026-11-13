@@ -1,0 +1,69 @@
+{
+  "name": "Papageno · la supérette des choses qu'on ne dit pas",
+  "short_name": "Papageno",
+  "description": "Un lieu anonyme et bienveillant pour poser ce qui pèse, lire les autres et recevoir un mot doux. Le 3114 répond 24h/24.",
+  "lang": "fr",
+  "dir": "ltr",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#ffe15a",
+  "theme_color": "#1c1f5c",
+  "categories": [
+    "health",
+    "lifestyle",
+    "social"
+  ],
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "screenshots/facade.png",
+      "sizes": "780x1688",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "La façade de Papageno"
+    },
+    {
+      "src": "screenshots/caisse.png",
+      "sizes": "780x1688",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Passer en caisse et écrire son ticket"
+    },
+    {
+      "src": "screenshots/porte-monnaie.png",
+      "sizes": "780x1688",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Le porte-monnaie et son code"
+    },
+    {
+      "src": "screenshots/boutique-large.png",
+      "sizes": "1366x860",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "La boutique sur ordinateur"
+    }
+  ]
+}

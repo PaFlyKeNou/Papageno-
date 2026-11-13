@@ -1,0 +1,159 @@
+PAPAGENO · L'APPLICATION MOBILE (version 10)
+============================================
+
+Ce dossier contient l'application mobile de Papageno.
+C'est une « application web installable » (PWA) : on l'installe depuis le site,
+sans passer par un store, sur iPhone comme sur Android.
+
+Une fois installée, Papageno :
+- a sa propre icône sur l'écran d'accueil (la tortue) ;
+- s'ouvre en plein écran, comme une vraie appli ;
+- reste ouverte même sans réseau (la boutique, le bocal, la radio « Musique douce » et « La mer »,
+  les voix d'accueil et d'au revoir). La « Playlist 1 » se joue avec une connexion internet.
+
+Nouveautés de la version 10 :
+- Seule la voix enregistrée (Laura, ElevenLabs) parle à l'entrée et à la sortie : la voix automatique
+  du navigateur est supprimée. Si l'enregistrement ne peut pas jouer, le site reste silencieux.
+- La voix démarre de façon plus fiable sur iPhone (son préparé dès le clic sur la porte).
+
+Nouveautés de la version 9 :
+- Rayon Exclusif : le 3114 et le SMS 114 sont dans le panier. Tant que le panier est à l'écran,
+  l'encadré 3114 du coin s'efface, pour ne plus cacher le bouton « Passer en caisse ».
+  Dès que le panier sort de l'écran, l'encadré revient : le 3114 reste toujours visible.
+
+Nouveautés de la version 8 :
+- La « Playlist 1 » est signée Sono Mondo.
+- En sortant du magasin, la radio accompagne l'au revoir, puis s'éteint en douceur
+  (si on rentre aussitôt dans le magasin, la musique continue).
+- Version de test : le site ne s'affiche pas dans les moteurs de recherche
+  (balise « noindex » dans index.html et fichier robots.txt). À retirer le jour du lancement public.
+
+Nouveautés de la version 7 : la « Playlist 1 » à la radio de la boutique.
+- 12 morceaux de Sono Mondo (45 min), dans le dossier « musique/playlist-1 ».
+- On la choisit dans « Plus », rubrique Radio (sur ordinateur : bouton « Radio » en haut de la boutique).
+- Le lecteur affiche le morceau en cours, le temps écoulé, les boutons précédent / lecture-pause / suivant
+  et la liste des 12 morceaux : on touche un titre pour l'écouter.
+- Les morceaux s'enchaînent ; après le dernier, on repart du premier.
+- Sur téléphone, les commandes apparaissent aussi sur l'écran verrouillé et marchent avec un casque.
+- La musique baisse pendant la voix d'accueil et d'au revoir. Le bouton Son coupe tout.
+- Hors connexion, un message le dit, et « Musique douce » et « La mer » restent disponibles.
+
+Nouveautés de la version 6 : un vrai format téléphone, au lieu du site en petit.
+- En haut, une barre marine avec le logo, le 3114 et le SMS 114, toujours visibles.
+- En bas, une barre d'onglets comme dans les applis : Allée, Exclusif, Caisse (avec le nombre
+  d'articles du panier), Bocal, et « Plus » qui ouvre une feuille avec les autres rayons
+  (Porte-monnaie, Café des Heureux, Les chiffres, Rencontres, À bientôt), le son, la radio et la sortie.
+- L'appli s'adapte au téléphone : sur iPhone, barre d'onglets translucide, icône remplie pour l'onglet
+  choisi, listes groupées et interrupteurs façon iPhone ; sur Android, pilule jaune sous l'onglet choisi,
+  ondulation au toucher et feuille à grands arrondis.
+- Les annonces glissent en bannière sous la barre du haut, sans pousser la page.
+- Sur ordinateur, rien ne change.
+
+Nouveautés de la version 5 : une nouvelle imprimante à la caisse (rouleau qui tourne, écran
+« PRÊTE / IMPRESSION… / REÇU ✓ »), le tampon « REÇU » en bas à droite du ticket imprimé, et une
+annonce qui conseille les rayons Les chiffres et Rencontres.
+
+Nouveautés de la version 4 : sur les étals du rayon 1, les produits s'affichent toujours en entier,
+étiquettes comprises, et l'en-tête de chaque étal indique où l'on en est (« 1–2 sur 7 »).
+
+Nouveautés de la version 3 :
+- le rayon 1 (Exclusif) présente chaque catégorie sur 3 étals, avec 63 articles ;
+- le bocal se vide quand il est plein (50 tickets) : les tickets partent dans la réserve,
+  où on peut toujours les lire et leur rendre la monnaie ;
+- un fond animé derrière le bocal, qui change avec l'heure (soleil, coucher de soleil, nuit étoilée) ;
+- un bouton « Revenir au bocal » en haut et à la fin de la liste des tickets ;
+- le ticket de sortie raccourci, et « Bonne journée » qui ne touche plus la phrase du dessous.
+Déjà dans la version 2 : le Café des Heureux, la radio « La mer » et l'accessibilité renforcée.
+
+
+1. METTRE LE DOSSIER EN LIGNE (gratuit)
+---------------------------------------
+Conseillé : Cloudflare Pages (gratuit, bande passante illimitée : la musique ne coûte rien).
+  1. Créer un compte gratuit sur https://dash.cloudflare.com/sign-up
+  2. Menu « Workers & Pages », puis « Create application », « Get started »,
+     puis « Drag and drop your files ».
+  3. Donner un nom au projet (par exemple papageno-test) : ce sera l'adresse
+     https://papageno-test.pages.dev
+  4. Glisser le fichier papageno-app.zip (ou le dossier « papageno-app »), puis « Deploy site ».
+  Limites gratuites : 1 000 fichiers et 25 Mo par fichier (l'appli : 35 fichiers, 5 Mo au plus).
+  Nouvelle version : ouvrir le projet, « Create a new deployment », glisser le nouveau dossier.
+
+Autre possibilité : Netlify Drop (https://app.netlify.com/drop), glisser-déposer le dossier.
+  Attention : l'offre gratuite donne 300 crédits par mois ; chaque mise en ligne en coûte 15
+  et chaque Go envoyé aux visiteurs en coûte 20. Quand les crédits sont épuisés, le site est
+  mis en pause jusqu'au mois suivant. Pour un site avec 45 minutes de musique, Cloudflare est plus sûr.
+
+Le site est en « https » tout seul (obligatoire pour installer l'appli).
+On peut brancher plus tard son propre nom de domaine (une dizaine d'euros par an).
+
+
+2. INSTALLER L'APPLI SUR SON TÉLÉPHONE
+---------------------------------------
+Android (Chrome) :
+  ouvrir le site, puis toucher le bouton « Installer l'appli Papageno »
+  sous « Entrer dans la boutique ».
+  (Ou : menu ⋮ de Chrome, puis « Installer l'application ».)
+
+iPhone (Safari) :
+  ouvrir le site, toucher « Partager » (le carré avec une flèche),
+  puis « Sur l'écran d'accueil ». Le site affiche aussi cette aide.
+
+
+3. PUBLIER SUR LES STORES (facultatif, plus tard)
+-------------------------------------------------
+Le même site peut être emballé pour Google Play et l'App Store avec PWABuilder
+(https://www.pwabuilder.com), un outil gratuit de Microsoft : on lui donne
+l'adresse du site en ligne, il prépare les paquets pour les stores.
+
+Il faut des comptes développeur :
+- Google Play : 25 $, payés une seule fois ;
+- App Store (Apple) : 99 $ par an. Pour Apple, la dernière étape se fait sur un Mac (Xcode).
+
+
+4. METTRE À JOUR L'APPLI
+------------------------
+Quand le site change : remplacer les fichiers en ligne, puis ouvrir « sw.js »
+et changer la ligne VERSION (cette version est papageno-v10 ; la prochaine sera papageno-v11).
+Les téléphones récupèrent alors la nouvelle version à leur prochaine visite.
+
+
+5. À SAVOIR AVANT D'ACCUEILLIR DU PUBLIC
+--------------------------------------
+Pour l'instant, comme le prototype, l'appli garde les données sur chaque téléphone.
+La base de données partagée (Supabase est prévue dans le code) est l'étape suivante. Elle permettra :
+- que les tickets et la monnaie rendue passent vraiment d'un visiteur à l'autre ;
+- de compter les vraies personnes en caisse (10 par caisse, une nouvelle caisse à la 11e) ;
+- d'ouvrir son porte-monnaie avec son code sur n'importe quel téléphone ;
+- de prévenir l'organisatrice des tickets à relire et des demandes d'effacement.
+
+
+6. ACCESSIBILITÉ
+----------------
+L'appli et le site partagent le même code : ils ont les mêmes réglages d'accessibilité.
+- Personnes sourdes ou malentendantes : tout ce que disent les voix est aussi écrit à l'écran,
+  aucun son n'est indispensable, et le « SMS 114 » (urgence par écrit) est visible partout
+  à côté du 3114.
+- Personnes malvoyantes : la page est déclarée en français pour les lecteurs d'écran
+  (VoiceOver, TalkBack), chaque bouton a un nom, les textes sont assez contrastés,
+  l'anneau de focus se voit sur tous les fonds, et l'affichage tient sans défilement
+  horizontal jusqu'à 320 pixels de large (zoom à 400 %).
+- Tout se fait au clavier ; sur ordinateur, les flèches passent d'un rayon à l'autre ;
+  sur téléphone, la feuille « Plus » garde le clavier tant qu'elle est ouverte et se ferme avec Échap.
+- Les animations suivent le réglage « réduire les animations » du téléphone.
+Vérifié avec axe-core (règles WCAG 2.2, niveaux A et AA) sur 14 écrans, sur téléphone et sur ordinateur : aucune erreur.
+Ces tests automatiques ne remplacent pas un essai avec de vraies personnes
+qui utilisent un lecteur d'écran ou qui sont sourdes.
+
+
+CONTENU DU DOSSIER
+------------------
+index.html             la boutique Papageno
+manifest.webmanifest   la carte d'identité de l'appli (nom, icônes, couleurs)
+sw.js                  le service worker : garde l'appli ouverte sans réseau
+icons/                 les icônes (tortue sur fond jaune)
+screenshots/           les captures montrées au moment de l'installation
+vendor/matter.min.js   la physique du bocal (Matter.js, licence MIT)
+bienvenue.mp3          la voix d'accueil
+aurevoir.mp3           la voix d'au revoir
+musique/playlist-1/    les 12 morceaux de la Playlist 1 (Sono Mondo)
+robots.txt             version de test : pas de référencement (à retirer au lancement public)
