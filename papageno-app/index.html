@@ -2476,7 +2476,7 @@ body::before{content:"";position:fixed;left:0;right:0;top:0;height:env(safe-area
           <div class="course">
             <div><small>L'entrée</small><b>Groupe de parole</b><p>Un cercle de 6 à 12 personnes, accompagné. Tu parles si tu veux, tu écoutes si tu préfères.</p></div>
             <div><small>Le plat</small><b>Le moment ensemble</b><p>Tennis, resto, balade, pétanque, ciné… On choisit ensemble, sans pression de performance.</p></div>
-            <div><small>Le dessert</small><b>Le groupe Telegram</b><p>Pour garder le lien entre deux rencontres, et ne plus rester seul·e avec ce qui pèse. Avec un pseudo, sans donner ton numéro.</p></div>
+            <div><small>Le dessert</small><b>Le groupe Telegram</b><p>Pour garder le lien entre deux rencontres, et ne plus rester seul·e avec ce qui pèse. Avec ton pseudo, sans donner ton numéro. L'organisatrice t'y ajoute à la main.</p></div>
           </div>
           <ul class="reassure">
             <li><b>Qui anime</b><span>La fondatrice du comptoir, préparatrice mentale et secouriste en santé mentale. Elle écoute et oriente, elle ne soigne pas.</span></li>
@@ -2487,6 +2487,7 @@ body::before{content:"";position:fixed;left:0;right:0;top:0;height:env(safe-area
           <div class="faq">
             <details><summary>Je ne connais personne.</summary><p>C'est le cas de presque tout le monde la première fois. Le cercle est fait pour ça.</p></details>
             <details><summary>Je suis obligé·e de parler&nbsp;?</summary><p>Non. Tu peux écouter du début à la fin. Être là, c'est déjà beaucoup.</p></details>
+            <details><summary>Comment j'entre dans le groupe Telegram&nbsp;?</summary><p>Tu laisses ton pseudo Telegram dans le formulaire, ou ton e-mail. L'organisatrice lit chaque demande et t'ajoute elle-même au groupe. Pas de lien public&nbsp;: le groupe reste fermé, pour que personne d'autre n'y entre.</p></details>
             <details><summary>J'ai moins de 18 ans.</summary><p>Tu es bienvenu·e avec l'accord d'un parent, et accompagné·e d'un adulte de confiance.</p></details>
             <details><summary>Et si je vais très mal ce jour-là&nbsp;?</summary><p>Dis-le à l'animatrice. Elle n'est pas soignante, mais elle t'aidera à trouver le bon contact. En urgence&nbsp;: 3114, 15 ou 112.</p></details>
           </div>
@@ -2517,7 +2518,7 @@ body::before{content:"";position:fixed;left:0;right:0;top:0;height:env(safe-area
             <label class="chk" id="m-minor-ok-l" hidden><input type="checkbox" id="m-minor-ok"> Un parent est d'accord, et un adulte de confiance m'accompagnera</label>
             <label class="chk"><input type="checkbox" id="m-ok"> J'accepte la charte&nbsp;: zéro jugement, ce qui se dit dans le cercle reste dans le cercle, toujours dans un lieu public. Mon contact n'est visible que par l'organisatrice.</label>
             <button class="btn tomato" type="submit">Je m'inscris</button>
-            <p class="note">Démo&nbsp;: l'inscription reste sur cet appareil, rien n'est envoyé.</p>
+            <p class="note">Ta demande part à l'organisatrice par e-mail. Rien n'est envoyé sans que tu appuies toi-même sur « Envoyer » dans ton application mail.</p>
             <div class="msg" id="m-msg" hidden role="status"></div>
             <button type="button" class="btn ghost" id="m-leave">Me désinscrire et effacer mes données</button>
             <p class="note">Tu peux te désinscrire à tout moment, même sans compte&nbsp;: l'effacement est immédiat.</p>
@@ -2711,32 +2712,6 @@ body::before{content:"";position:fixed;left:0;right:0;top:0;height:env(safe-area
     </div>
     <div class="foot-end">
       <span><strong><span class="brand-word"><span class="sr">Papageno</span><span aria-hidden="true">Papagen<svg class="tortue" viewBox="0 0 100 110" focusable="false"><use href="#tortue"/></svg></span></span></strong> · Supérette des choses qu'on ne dit pas. Anonyme, gratuit, ouvert à tous les âges.</span>
-      <span style="display:flex;gap:10px;flex-wrap:wrap">
-        <button type="button" id="toggle-mod">Espace modération (démo)</button>
-        <button type="button" id="reset">Réinitialiser la démo</button>
-      </span>
-      <section class="mod-panel" id="mod" hidden aria-labelledby="h-mod">
-        <div class="mod-lanes" id="mod-lanes">
-          <h3 class="mod-h">Caisses · 10 personnes maximum par caisse</h3>
-          <p id="mod-lanes-status" style="margin:0">1 caisse ouverte · 0 personne en caisse</p>
-          <div class="mod-lane-bars" id="mod-lane-bars"></div>
-          <div class="lane-sim">
-            <label for="lane-sim">Simuler des visiteurs déjà en caisse (démo)</label>
-            <input type="range" id="lane-sim" min="0" max="35" step="1" value="0">
-            <output id="lane-sim-out" for="lane-sim">0</output>
-            <button type="button" data-sim="0">0</button><button type="button" data-sim="9">9</button><button type="button" data-sim="10">10</button><button type="button" data-sim="20">20</button>
-          </div>
-          <p class="pending" style="margin:8px 0 0">Démo&nbsp;: dans la version en ligne, ce compteur viendra de la base partagée (les personnes réellement présentes en caisse). Aucun chiffre inventé n'est montré aux visiteurs.</p>
-        </div>
-        <div class="mod-lanes mod-jar">
-          <h3 class="mod-h">Bocal · <span id="mod-jar-cap">50</span> tickets maximum</h3>
-          <p id="mod-jar-status" style="margin:0">…</p>
-          <div class="lane-sim"><button type="button" id="jar-fill-demo">Remplir le bocal jusqu'à ce qu'il déborde (démo)</button></div>
-          <p class="pending" style="margin:8px 0 0">Quand le bocal est plein, le ticket suivant le fait vider : les tickets partent dans la réserve, où on peut toujours les lire et y répondre. Le nouveau tombe dans un bocal tout propre.</p>
-        </div>
-        <h3 id="h-mod" style="margin:0 0 12px">Modération · contenus en attente</h3>
-        <div id="mod-list"></div>
-      </section>
     </div>
   </div>
 </footer>
@@ -3037,6 +3012,8 @@ $('#sound-btn').onclick = () => {
 // ---------- Accueil : petit jingle de magasin + voix de bienvenue ----------
 const WELCOME_VOICE = "Bonjour, et bienvenue chez Papageno, la supérette des choses qu'on ne dit pas. Prends ton temps, ici rien ne presse. Et si c'est trop lourd, le 31 14 répond, jour et nuit.";
 const WELCOME_TEXT = "Bienvenue chez Papageno, la supérette des choses qu'on ne dit pas. Prends ton temps, ici rien ne presse. Si c'est trop lourd, le 3114 répond jour et nuit.";
+// Affiché dès que la voix d'accueil a fini : à quoi sert le site, et ce qu'on peut y faire
+const SITE_EXPLAIN = "Ici, tu poses ce qui pèse sur ta journée. Tu remplis un panier, tu imprimes un ticket anonyme et tu le déposes dans le bocal. Un autre visiteur le lit et te rend la monnaie avec un mot doux. Tu peux aussi écouter la radio, passer au Café des Heureux ou t'inscrire aux rencontres. Papageno écoute, mais ne soigne pas. En urgence : 3114, 15 ou 112.";
 const VOICE_FILES = { bienvenue: 'bienvenue.mp3', aurevoir: 'aurevoir.mp3' }; // voix enregistrées (Laura) : l'accueil à l'entrée, l'au revoir à la sortie
 const Welcome = {
   voices: [], said: false, timer: null, raw: {}, buf: {}, els: {}, playing: [],
@@ -3142,14 +3119,24 @@ const Welcome = {
     } catch(e) { fin(); }
   },
   play(first){
-    showAnnonce(first ? WELCOME_TEXT : 'Re-bonjour ! Ravis de te revoir chez Papageno.', first ? 14000 : 6000);
-    clearTimeout(this.tipT); this.tipT = setTimeout(annonce, (first ? 14000 : 6000) + 1500);   // juste après l'accueil : le conseil de la maison
-    this.jingle();
-    if (first && !this.said){
-      this.said = true;
-      clearTimeout(this.timer);
-      this.timer = setTimeout(() => this.playFile('bienvenue', WELCOME_VOICE.replace(/^Bonjour/, HELLO[dayPart()])), 1200);
+    clearTimeout(this.tipT);
+    if (!first || this.said){
+      showAnnonce(first ? WELCOME_TEXT : 'Re-bonjour ! Ravis de te revoir chez Papageno.', first ? 14000 : 6000);
+      this.tipT = setTimeout(annonce, (first ? 14000 : 6000) + 1500);   // juste après l'accueil : le conseil de la maison
+      this.jingle();
+      return;
     }
+    // premier accueil : le texte d'accueil pendant la voix, puis l'explication du site une fois la voix terminée
+    showAnnonce(WELCOME_TEXT, 14000);
+    this.jingle();
+    this.said = true;
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => this.playFile('bienvenue', WELCOME_VOICE.replace(/^Bonjour/, HELLO[dayPart()]), () => {
+      setTimeout(() => {
+        showAnnonce(SITE_EXPLAIN, 30000);
+        clearTimeout(this.tipT); this.tipT = setTimeout(annonce, 31500);   // puis le conseil de la maison
+      }, Sound.on ? 0 : 6000);   // sans son, on laisse le temps de lire l'accueil
+    }), 1200);
   },
   // Au revoir : après la clochette de la porte
   goodbye(text, done){
@@ -3709,8 +3696,6 @@ const Lanes = {
     if (this.here){ this.here = false; this.arrive(); } else this.paint();
   }
 };
-$('#lane-sim').oninput = e => Lanes.simulate(+e.target.value);
-$$('#mod-lanes [data-sim]').forEach(b => b.onclick = () => Lanes.simulate(+b.dataset.sim));
 
 // ---------- Ticket en cours ----------
 const linesEl = $('#lines');
@@ -4293,7 +4278,6 @@ function render(){
 
   renderWallet(own);
   bindActions();
-  renderMod();
   JarUI.paint();
   renderMerci();
   renderSwap();
@@ -4427,6 +4411,15 @@ const PM = {
     try { history.replaceState(null, '', location.pathname + location.search); } catch(e) {}
     if (me().code && normCode(me().code) === normCode(code)) { ui.aisle = 'mine'; return; }
     ui.prefill = code; ui.aisle = 'mine';
+    // scan : si le code est connu sur cet appareil, il est enregistré tout seul et le porte-monnaie s'ouvre
+    const db = Store.load(), hit = (db.codes || {})[normCode(code)];
+    if (hit){
+      db.me = { id: hit.id, handle: hit.handle, code }; Store.save();
+      Object.assign(ui, { loggedOut: false, prefill: '', purse: false, opened: null, walletOpen: true, newCode: false });
+      toast('Ton code est enregistré sur cet appareil. Ton porte-monnaie est ouvert.');
+    } else {
+      toast('Code reçu. Appuie sur « Ouvrir mon porte-monnaie » pour l\'enregistrer ici.');
+    }
   }
 };
 
@@ -4541,59 +4534,6 @@ function openCare(risk){
 $('#care-close').onclick = () => { $('#care').classList.remove('open'); lastFocus?.focus(); };
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && $('#care').classList.contains('open')) $('#care-close').click(); });
 
-// ---------- Modération (démo locale) ----------
-function renderMod(){
-  const db = Store.load(), items = [];
-  db.receipts.forEach(r => {
-    if (r.status === 'held') items.push({ kind:'ticket', r, text: r.lines.map(x=>`${x.q}x ${x.l}`).join(' · ') + (r.note ? ' — ' + r.note : ''), flags: r.flags, reports: r.reports });
-    r.replies.forEach(p => { if (p.status === 'held') items.push({ kind:'réponse', r, p, text: p.body, flags: p.flags }); });
-  });
-  (db.thanks || []).forEach(t => { if (t.status === 'held') items.push({ kind:'merci', r:t, text: t.text, flags: analyze(t.text) }); });
-  const rank = { high: 0, elevated: 1, low: 2, none: 3 };
-  items.sort((a,b) => rank[(a.p||a.r).risk] - rank[(b.p||b.r).risk]);
-  $('#mod-list').innerHTML = items.length ? items.map((it,i) => `
-    <div class="mod-item">
-      <strong>${it.kind} · ${esc((it.p||it.r).handle)} · ${when((it.p||it.r).at)}</strong>
-      <div class="tags">
-        <span class="tag ${(it.p||it.r).risk}">risque ${(it.p||it.r).risk}</span>
-        ${(it.flags?.categories||[]).map(c => `<span class="tag ${c}">${c}</span>`).join('')}
-        ${it.reports ? `<span class="tag">signalé</span>` : ''}
-      </div>
-      <p>${esc(it.text)}</p>
-      ${it.flags?.matches?.length ? `<p class="pending">Termes détectés : ${esc(it.flags.matches.join(', '))}</p>` : ''}
-      <div class="actions">
-        <button class="btn" data-act="approve" data-i="${i}">Publier</button>
-        <button class="btn ghost" data-act="remove" data-i="${i}">Retirer</button>
-      </div>
-    </div>`).join('') : '<p>Aucun contenu en attente.</p>';
-  $('#mod-list').querySelectorAll('[data-act]').forEach(b => b.onclick = () => {
-    const it = items[b.dataset.i], target = it.p || it.r;
-    target.status = b.dataset.act === 'approve' ? 'published' : 'removed';
-    Store.save(); render();
-  });
-}
-$('#toggle-mod').onclick = () => { const m = $('#mod'); m.hidden = !m.hidden; if (!m.hidden) m.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth' }); };
-$('#jar-fill-demo').onclick = () => {
-  const db = Store.load(), st = jarState(db);
-  const pool = [...COSTS, ...PROMOS, ...NEEDS].filter(x => !x.blank);
-  let n = db.receipts.filter(r => inJar(r, db)).length;
-  const t0 = Math.max(Date.now(), st.batch + 1);
-  while (n <= JAR_CAP){
-    const lines = Array.from({ length: 1 + (n % 3) }, (_, j) => { const x = pool[(n * 7 + j * 11) % pool.length]; return { q: 1, l: x.l, p: x.p }; });
-    db.receipts.unshift({ id: uid(), no: db.ticketNo++, handle: 'Client n°' + (1000 + (n * 379) % 9000), author: 'seed', status: 'published', risk: 'none',
-      at: t0 + n, lines, note: '', replies: [] });
-    n++;
-  }
-  Store.save();
-  if (!$('#r-bocal').hidden && !ui.list && !$('#store').hidden){
-    $('#jar-view').scrollIntoView({ block:'start', behavior: reduced ? 'auto' : 'smooth' });
-    setTimeout(render, reduced ? 0 : 700);
-  } else {
-    render();
-    toast(`Le bocal déborde (${n} tickets). Va au rayon Le bocal pour le voir se vider.`, { label:'Aller au bocal', fn: () => setAisle('bocal', true) });
-  }
-};
-$('#reset').onclick = () => { Store.reset(); Jar.papers.forEach((_, id) => Jar.remove(id)); ui.drawn = null; resetComposer(); render(); toast('Démo réinitialisée.'); };
 
 // =====================================================================
 //  Rayons repris de Cœur Express
@@ -4926,7 +4866,7 @@ $('#scratch-new').onclick = () => { Scratch.render(true); clink(2); };
 // ---------- Rencontres : inscription (démo locale) ----------
 function renderMeet(){
   const s = Store.load().signup;
-  if (s){ const m = $('#m-msg'); m.hidden = false; m.className = 'msg'; m.textContent = `C'est noté, ${s.name}. Tu seras prévenu·e des prochaines dates.` + (s.idea ? ` Ton idée « ${s.idea} » est transmise à l'organisatrice, merci !` : ''); }
+  if (s){ const m = $('#m-msg'); m.hidden = false; m.className = 'msg'; m.textContent = `Ta demande, ${s.name}, est enregistrée sur cet appareil. Si tu ne l'as pas encore envoyée par e-mail, renvoie le formulaire pour ouvrir ton application mail.`; }
 }
 $('#m-minor').onchange = e => { $('#m-minor-ok-l').hidden = !e.target.checked; };
 $('#meet-form').onsubmit = e => {
@@ -4941,10 +4881,27 @@ $('#meet-form').onsubmit = e => {
   if ($('#m-minor').checked && !$('#m-minor-ok').checked){ m.textContent = "Avant moins de 18 ans, il faut l'accord d'un parent et un adulte de confiance."; return; }
   if (!$('#m-ok').checked){ m.textContent = 'Coche la case de la charte pour t\'inscrire.'; return; }
   const db = Store.load();
-  db.signup = { name, contact: isMail ? c : '@' + c.replace(/^@/, ''), city: $('#m-city').value.trim(), telegram: $('#m-tg').checked,
+  const s = { name, contact: isMail ? c : '@' + c.replace(/^@/, ''), city: $('#m-city').value.trim(), telegram: $('#m-tg').checked,
     acts: $$('#m-acts input:checked').map(i => i.value), idea: $('#m-idea').value.trim(), at: Date.now() };
-  Store.save(); renderMeet(); toast('Inscription notée. À bientôt en vrai.');
+  db.signup = s;
+  Store.save(); renderMeet();
+  // la demande part à l'organisatrice par e-mail : l'application mail s'ouvre avec le message déjà écrit, le visiteur valide lui-même
+  const minor = $('#m-minor').checked;
+  const body = [
+    `Prénom ou pseudo : ${s.name}`,
+    `Contact : ${s.contact}`,
+    `Ville ou région : ${s.city || 'non précisé'}`,
+    `Lien Telegram demandé : ${s.telegram ? 'oui' : 'non'}`,
+    `Ce qui me tente : ${s.acts.join(', ') || 'non précisé'}`,
+    s.idea ? `Activité proposée : ${s.idea}` : '',
+    `Moins de 18 ans : ${minor ? 'oui (accord parental et adulte accompagnant annoncés)' : 'non'}`
+  ].filter(Boolean).join('\n');
+  const href = `mailto:${MEET_MAIL}?subject=${encodeURIComponent('Rencontres Papageno : une demande')}&body=${encodeURIComponent(body)}`;
+  m.className = 'msg';
+  m.innerHTML = `Ta demande est prête. Il ne reste qu'à l'envoyer&nbsp;: ton application mail s'ouvre, appuie sur « Envoyer ».<p style="margin:12px 0 0"><a class="btn tomato" href="${href}">Envoyer ma demande par e-mail</a></p>`;
+  toast('Ta demande est prête à être envoyée.');
 };
+const MEET_MAIL = 'coucou_papagenohelpme@ik.me';
 // Désinscription : toujours disponible, effet immédiat (droit à l'effacement)
 $('#m-leave').onclick = () => {
   const db = Store.load(), had = !!db.signup;

@@ -65,24 +65,23 @@ Exemple : l'encadré 3114 cachait le panier du rayon Exclusif. Il n'a pas été 
    - tout marche au clavier (Tab, Entrée, Échap) ;
    - aucune erreur dans la console ;
    - contraste du texte d'au moins 4,5:1.
-6. À chaque nouvelle version mise en ligne : changer `VERSION` dans `sw.js` (actuellement `papageno-v10`, la prochaine sera `papageno-v11`), sinon les téléphones gardent l'ancienne version. Ajouter une ligne « Nouveautés » dans `LISEZ-MOI.txt`.
+6. À chaque nouvelle version mise en ligne : changer `VERSION` dans `sw.js` (actuellement `papageno-v11`, la prochaine sera `papageno-v12`), sinon les téléphones gardent l'ancienne version. Ajouter une ligne « Nouveautés » dans `LISEZ-MOI.txt`.
 
 ## Mise en ligne
 
 **Dépôt GitHub privé** : `PaFlyKeNou/Papageno-` (branche `main`).
-**Hébergement** : Cloudflare Pages — **https://papageno.pages.dev** (projet « papageno »).
+**Hébergement** : Cloudflare (Workers, avec fichiers statiques) — **https://papageno.droledevoyages.workers.dev**.
 
 ### Workflow de déploiement (Git)
 
 1. Modifier les fichiers dans `papageno-app/`.
 2. Commit et push sur la branche `main`.
-3. Cloudflare Pages détecte le push et déploie automatiquement.
-   - Framework : aucun. Commande de build : aucune. Répertoire de sortie : `papageno-app`.
+3. Cloudflare détecte le push et déploie automatiquement (commande de déploiement : `npx wrangler deploy`, racine `/`, sans étape de build).
 
-### Première mise en place (déjà faite si vous lisez ceci dans le dépôt)
+### Première mise en place (faite)
 
-- Créer le projet sur Cloudflare Pages via « Connect to Git » → dépôt `Papageno-` → branche `main` → framework « None » → build command vide → output directory `papageno-app`.
-- Si un ancien projet « papageno » en téléchargement direct existe, le supprimer d'abord (Cloudflare ne convertit pas un projet direct-upload en Git).
+- Le projet Cloudflare est relié au dépôt GitHub `Papageno-` (branche `main`), créé depuis le tableau de bord Cloudflare.
+- Un déploiement direct (glisser un dossier ou un zip) ne se relie pas à Git : passer par le dépôt.
 
 Version de test : `<meta name="robots" content="noindex">` dans `index.html`, plus `robots.txt`. À retirer le jour du lancement public.
 

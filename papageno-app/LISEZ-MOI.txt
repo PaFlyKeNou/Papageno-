@@ -1,4 +1,4 @@
-PAPAGENO · L'APPLICATION MOBILE (version 10)
+PAPAGENO · L'APPLICATION MOBILE (version 11)
 ============================================
 
 Ce dossier contient l'application mobile de Papageno.
@@ -10,6 +10,15 @@ Une fois installée, Papageno :
 - s'ouvre en plein écran, comme une vraie appli ;
 - reste ouverte même sans réseau (la boutique, le bocal, la radio « Musique douce » et « La mer »,
   les voix d'accueil et d'au revoir). La « Playlist 1 » se joue avec une connexion internet.
+
+Nouveautés de la version 11 :
+- Accueil : une fois la voix de bienvenue terminée, une annonce explique à quoi sert le site
+  et ce que le visiteur peut y faire (panier, bocal, radio, rencontres).
+- QR code du porte-monnaie : scanné, il enregistre le code sur l'appareil tout de suite
+  et ouvre le porte-monnaie, sans rien recopier.
+- Rencontres : la demande se rédige et s'envoie par e-mail à l'organisatrice ; le lien
+  Telegram est donné à la main après lecture de la demande (question ajoutée dans l'aide).
+- Espace de démonstration retiré (modération et réinitialisation de la démo).
 
 Nouveautés de la version 10 :
 - Seule la voix enregistrée (Laura, ElevenLabs) parle à l'entrée et à la sortie : la voix automatique
