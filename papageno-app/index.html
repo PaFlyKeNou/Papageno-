@@ -3014,7 +3014,7 @@ const WELCOME_VOICE = "Bonjour, et bienvenue chez Papageno, la supérette des ch
 const WELCOME_TEXT = "Bienvenue chez Papageno, la supérette des choses qu'on ne dit pas. Prends ton temps, ici rien ne presse. Si c'est trop lourd, le 3114 répond jour et nuit.";
 // Affiché dès que la voix d'accueil a fini : à quoi sert le site, et ce qu'on peut y faire
 const SITE_EXPLAIN = "Ici, tu poses ce qui pèse sur ta journée. Tu remplis un panier, tu imprimes un ticket anonyme et tu le déposes dans le bocal. Un autre visiteur le lit et te rend la monnaie avec un mot doux. Tu peux aussi écouter la radio, passer au Café des Heureux ou t'inscrire aux rencontres. Papageno écoute, mais ne soigne pas. En urgence : 3114, 15 ou 112.";
-const VOICE_FILES = { bienvenue: 'bienvenue.mp3', aurevoir: 'aurevoir.mp3' }; // voix enregistrées (Laura) : l'accueil à l'entrée, l'au revoir à la sortie
+const VOICE_FILES = { bienvenue: 'bienvenue.mp3', explication: 'explication.mp3', aurevoir: 'aurevoir.mp3' }; // voix enregistrées (Laura) : l'accueil à l'entrée, l'au revoir à la sortie
 const Welcome = {
   voices: [], said: false, timer: null, raw: {}, buf: {}, els: {}, playing: [],
   // On télécharge les enregistrements dès l'arrivée, pour qu'ils soient prêts au clic
@@ -3136,14 +3136,19 @@ const Welcome = {
     this.jingle();
     this.said = true;
     clearTimeout(this.timer);
-    this.timer = setTimeout(() => this.playFile('bienvenue', WELCOME_VOICE.replace(/^Bonjour/, HELLO[dayPart()]), () => {
-      setTimeout(() => {
-        showAnnonce(SITE_EXPLAIN, 30000);
-        clearTimeout(this.tipT); this.tipT = setTimeout(annonce, 31500);   // puis le conseil de la maison
-        // le concept est expliqué : la Playlist 1 démarre toute seule, dans un ordre aléatoire
-        if (Sound.on && !Radio.station){ try { Radio.play('playlist'); } catch(e) {} }
-      }, Sound.on ? 0 : 6000);   // sans son, on laisse le temps de lire l'accueil
-    }), 1200);
+    this.timer = setTimeout(() => this.playFile('bienvenue', WELCOME_VOICE.replace(/^Bonjour/, HELLO[dayPart()]), () => this.explain()), 1200);
+  },
+  // L'explication du site : écrite à l'écran et lue à voix haute (explication.mp3), puis la Playlist 1 démarre
+  explain(){
+    clearTimeout(this.tipT);
+    if (!Sound.on){ showAnnonce(SITE_EXPLAIN, 30000); this.tipT = setTimeout(annonce, 31500); return; }
+    showAnnonce(SITE_EXPLAIN, 60000);
+    const end = () => {
+      showAnnonce(SITE_EXPLAIN, 15000);   // reste à l'écran un moment après la voix
+      clearTimeout(this.tipT); this.tipT = setTimeout(annonce, 16500);   // puis le conseil de la maison
+      if (Sound.on && !Radio.station){ try { Radio.play('playlist'); } catch(e) {} }   // la Playlist 1, dans un ordre aléatoire
+    };
+    this.playFile('explication', SITE_EXPLAIN, end);
   },
   // Au revoir : après la clochette de la porte
   goodbye(text, done){
