@@ -2883,7 +2883,7 @@ async function enterStore(){
     await wait(420);
   }
   await Portal.run('in', {
-    onOpen: () => { showScene('store'); setAisle(ui.aisle, true); Welcome.play(first); },
+    onOpen: () => { showScene('store'); setAisle(ui.aisle, true); chime(); Welcome.play(first); },   // le ding ding : seulement quand quelqu'un entre
     onPass: () => Motion.lightsOn(first)
   });
   $('#door').classList.remove('open'); $('#storefront').classList.remove('entering');
@@ -2972,7 +2972,6 @@ function chime(soft){
   } catch(e) {}
 }
 function ringBell(){
-  chime();
   if (reduced) return;
   const el = $('#bell'); el.classList.remove('play'); void el.offsetWidth; el.classList.add('play');
 }
@@ -2999,7 +2998,6 @@ const Sound = {
 };
 $('#sound-btn').onclick = () => {
   Sound.set(!Sound.on);
-  if (Sound.on) chime(true);
   toast(Sound.on ? 'Son activé : musique d\'accueil, bips de caisse et clochette.' : 'Son coupé. La boutique reste ouverte, en silence.');
 };
 
@@ -3317,7 +3315,7 @@ function startQueue(){
     Q.t = setTimeout(() => {
       Q.now++;
       if (Q.now === Q.mine){
-        Q.served = true; chime(true);
+        Q.served = true;
         toast(`N°${pad3(Q.mine)}, c'est ton tour ! La caisse t'attend, prends ton temps.`, { label:'Aller à la caisse', fn: () => setAisle('caisse', true) });
       }
       renderQueue(true); tick();
@@ -3669,7 +3667,6 @@ const Lanes = {
   opened(n){
     showAnnonce(`Ouverture de la caisse ${this.lab(n)} ! 10 personnes maximum par caisse : on t'y attend, sans file d'attente.`, 9000);
     toast(`La caisse ${this.lab(n)} vient d'ouvrir pour toi : 10 personnes maximum par caisse.`);
-    chime(true);
     if (!reduced) $('#lane .lane-box')?.animate([{ opacity: .2 }, { opacity: 1, offset: .2 }, { opacity: .3, offset: .4 }, { opacity: 1, offset: .6 }, { opacity: .4, offset: .8 }, { opacity: 1 }], { duration: 1200 });
   },
   paint(){
@@ -4557,7 +4554,7 @@ function stopBreath(done){
   const total = +document.querySelector('input[name="dur"]:checked').value;
   $('#br-num').textContent = fmt(total);
   $('#br-phase').textContent = done ? 'Bravo. Tu peux reprendre ta journée, un peu plus léger·e.' : 'Prêt·e quand tu veux.';
-  if (done){ ui.session.breath++; chime(true); }
+  if (done){ ui.session.breath++; }
 }
 $('#br-start').onclick = () => {
   BR.left = +document.querySelector('input[name="dur"]:checked').value;
@@ -4777,7 +4774,7 @@ function renderSwap(){
     $(`.swap-one[data-k="${CSS.escape(k)}"]`)?.focus();
   });
 }
-$('#swap-all').onclick = () => { swapItems().forEach(it => swapped.add(it.key)); renderSwap(); if (!reduced) chime(true); };
+$('#swap-all').onclick = () => { swapItems().forEach(it => swapped.add(it.key)); renderSwap(); };
 $('#swap-reset').onclick = () => { swapped.clear(); renderSwap(); };
 
 // ---------- Les chiffres (repris de Cœur Express, avec leurs sources) ----------
@@ -5400,7 +5397,6 @@ function annonce(){
   if ($('#store').hidden || Date.now() < (showAnnonce.until || 0)) return;
   const tip = annCount++ % 3 === 0;
   showAnnonce(tip ? ANNONCE_TIP : ANNONCES[annIdx++ % ANNONCES.length], tip ? 12000 : 9000);
-  if (Radio.on) chime(true);
 }
 setTimeout(function loop(){ annonce(); setTimeout(loop, 45000); }, 12000);
 
@@ -5423,7 +5419,7 @@ function demoChange(r, delay){
       body: DEMO_CHANGE[h % DEMO_CHANGE.length], status: 'published', at: delay ? Date.now() : Math.min(Date.now(), t.at + 20 * 60e3) });
     Store.save(); render();
     if (delay){
-      chime(true); clink(5); Joy.rain(14); Motion.markNew();
+      clink(5); Joy.rain(14); Motion.markNew();
       toast('De la monnaie vient de tomber dans ton porte-monnaie.', { label:'Ouvrir la bourse', fn: () => {
         ui.purse = true; ui.opened = null; render();
         setAisle('mine', true).then(() => { if (ui.purse && ui.aisle === 'mine') Joy.purseOpen(); });
@@ -6122,7 +6118,7 @@ const Anim = {
 };
 $('#calm-on').onclick = () => { Anim.set(true); toast('Animations activées : portes automatiques, lumières et voyages entre les rayons.'); $('#enter').focus({ preventScroll: true }); };
 $$('[data-anim-toggle]').forEach(b => b.onclick = () => { Anim.set(reduced); toast(reduced ? 'Animations réduites : la boutique reste immobile.' : 'Animations activées.'); });
-$('#desk-sound').onclick = () => { Sound.set(!Sound.on); if (Sound.on) chime(true); };
+$('#desk-sound').onclick = () => { Sound.set(!Sound.on); };
 
 // ---------- L'application mobile (PWA) ----------
 // Sur le site en ligne, la page déclare un manifeste et un service worker : le téléphone propose alors de l'installer
