@@ -27,7 +27,7 @@ Exemple : l'encadré 3114 cachait le panier du rayon Exclusif. Il n'a pas été 
 | `manifest.webmanifest` | carte d'identité de l'appli |
 | `icons/`, `screenshots/` | icônes (tortue) et captures pour l'installation |
 | `vendor/matter.min.js` | physique du bocal (Matter.js, licence MIT) |
-| `bienvenue.mp3`, `aurevoir.mp3` | voix d'accueil et d'au revoir |
+| `bienvenue.mp3`, `explication.mp3`, `aurevoir.mp3` | voix d'accueil, explication du site (juste après l'accueil) et au revoir |
 | `musique/playlist-1/` | les 12 morceaux de la « Playlist 1 », signés Sono Mondo |
 | `robots.txt` | bloque les moteurs de recherche pendant la phase de test |
 | `LISEZ-MOI.txt` | mode d'emploi et historique des versions |
@@ -65,7 +65,7 @@ Exemple : l'encadré 3114 cachait le panier du rayon Exclusif. Il n'a pas été 
    - tout marche au clavier (Tab, Entrée, Échap) ;
    - aucune erreur dans la console ;
    - contraste du texte d'au moins 4,5:1.
-6. À chaque nouvelle version mise en ligne : changer `VERSION` dans `sw.js` (actuellement `papageno-v12`, la prochaine sera `papageno-v13`), sinon les téléphones gardent l'ancienne version. Ajouter une ligne « Nouveautés » dans `LISEZ-MOI.txt`.
+6. À chaque nouvelle version mise en ligne : changer `VERSION` dans `sw.js` (actuellement `papageno-v14`, la prochaine sera `papageno-v15`), sinon les téléphones gardent l'ancienne version. Ajouter une ligne « Nouveautés » dans `LISEZ-MOI.txt`.
 
 ## Mise en ligne
 

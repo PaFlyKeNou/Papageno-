@@ -1,4 +1,4 @@
-PAPAGENO · L'APPLICATION MOBILE (version 13)
+PAPAGENO · L'APPLICATION MOBILE (version 14)
 ============================================
 
 Ce dossier contient l'application mobile de Papageno.
@@ -10,6 +10,10 @@ Une fois installée, Papageno :
 - s'ouvre en plein écran, comme une vraie appli ;
 - reste ouverte même sans réseau (la boutique, le bocal, la radio « Musique douce » et « La mer »,
   les voix d'accueil et d'au revoir). La « Playlist 1 » se joue avec une connexion internet.
+
+Nouveautés de la version 14 :
+- Le fichier explication.mp3 (voix Laura, version corrigée « Papajéno » et « 31 14 ») est en place
+  et fait partie des fichiers gardés hors connexion.
 
 Nouveautés de la version 13 :
 - L'explication d'accueil (à quoi sert le site, ce qu'on peut y faire) est lue à voix haute,
@@ -130,7 +134,7 @@ Il faut des comptes développeur :
 4. METTRE À JOUR L'APPLI
 ------------------------
 Quand le site change : remplacer les fichiers en ligne, puis ouvrir « sw.js »
-et changer la ligne VERSION (cette version est papageno-v10 ; la prochaine sera papageno-v11).
+et changer la ligne VERSION (cette version est papageno-v14 ; la prochaine sera papageno-v15).
 Les téléphones récupèrent alors la nouvelle version à leur prochaine visite.
 
 
