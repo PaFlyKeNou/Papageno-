@@ -1,6 +1,6 @@
 // Papageno · le service worker garde la boutique ouverte, même sans réseau.
 // À chaque mise à jour du site, change VERSION pour que les téléphones récupèrent la nouvelle version.
-const VERSION = 'papageno-v17';
+const VERSION = 'papageno-v18';
 const FONTS = 'papageno-polices';
 const CORE = ['./', 'index.html', 'manifest.webmanifest', 'vendor/matter.min.js', 'bienvenue.mp3', 'explication.mp3', 'aurevoir.mp3',
   'icons/icon-192.png', 'icons/icon-512.png', 'icons/icon-maskable-512.png', 'icons/apple-touch-icon.png', 'icons/favicon-32.png'];

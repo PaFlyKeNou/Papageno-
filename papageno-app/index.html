@@ -4398,7 +4398,7 @@ const PM = {
     const db = Store.load(), hit = (db.codes || {})[val];
     if (!hit){
       if (++this.fails >= 5){ this.fails = 0; this.waitUntil = Date.now() + 30000; }   // contre ceux qui essaient des codes au hasard
-      return fail('Code inconnu. Vérifie chaque lettre et chaque chiffre.' + (DEMO ? ' (Démo : pour l\'instant, un code ne s\'ouvre que sur l\'appareil où il a été créé. Dans la version en ligne, il marchera sur tous tes appareils.)' : ''));
+      return fail('Ce code n\'est pas connu sur cet appareil. Pour l\'instant, un code ne s\'ouvre que sur l\'appareil où il a été créé ; la version partagée, qui le rendra utilisable partout, est en préparation. Vérifie aussi chaque lettre et chaque chiffre.');
     }
     this.fails = 0;
     db.me = { id: hit.id, handle: hit.handle, code: fmtCode(val) }; Store.save();
@@ -4422,7 +4422,7 @@ const PM = {
       Object.assign(ui, { loggedOut: false, prefill: '', purse: false, opened: null, walletOpen: true, newCode: false });
       toast('Ton code est enregistré sur cet appareil. Ton porte-monnaie est ouvert.');
     } else {
-      toast('Code reçu. Appuie sur « Ouvrir mon porte-monnaie » pour l\'enregistrer ici.');
+      toast('Code reçu, mais il n\'est pas encore sur cet appareil. Pour l\'instant, il ne s\'ouvre que là où il a été créé.');
     }
   }
 };
