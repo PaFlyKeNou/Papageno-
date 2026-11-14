@@ -2675,7 +2675,6 @@ body::before{content:"";position:fixed;left:0;right:0;top:0;height:env(safe-area
       <div class="thoughts">
         <div class="pensee"><span class="k">Pensée à emporter</span><p id="pensee"></p></div>
         <figure class="quote"><blockquote id="quote-text"></blockquote><figcaption id="quote-src"></figcaption></figure>
-        <div><button type="button" class="btn ghost" id="another">Une autre pensée</button></div>
       </div>
     </div>
     <div class="exit-host"><span class="desk-av" aria-hidden="true"><svg viewBox="0 0 100 110" focusable="false"><use href="#tortue"/></svg></span><p id="exit-host">Merci de ta visite&nbsp;! On garde la lumière allumée pour toi.</p></div>
@@ -2928,11 +2927,6 @@ function nextThought(){
   $('#quote-text').textContent = q.t;
   $('#quote-src').innerHTML = '— ' + esc(q.a) + (q.s ? ', <cite>' + esc(q.s) + '</cite>' : '');
 }
-$('#another').onclick = () => {
-  nextThought();
-  placeSmileys();   // la pensée change de taille : les émoticônes se replacent dans les espaces libres
-  if (!reduced) $$('.pensee, .quote').forEach(el => el.animate([{ opacity:0, transform:'translateY(10px)' },{ opacity:1, transform:'none' }], { duration: 400, easing:'ease-out' }));
-};
 
 // Clochette de porte, synthétisée (deux notes douces)
 let audioCtx;
