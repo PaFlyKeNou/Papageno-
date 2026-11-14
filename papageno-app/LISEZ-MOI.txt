@@ -1,4 +1,4 @@
-PAPAGENO · L'APPLICATION MOBILE (version 18)
+PAPAGENO · L'APPLICATION MOBILE (version 19)
 ============================================
 
 Ce dossier contient l'application mobile de Papageno.
@@ -10,6 +10,9 @@ Une fois installée, Papageno :
 - s'ouvre en plein écran, comme une vraie appli ;
 - reste ouverte même sans réseau (la boutique, le bocal, la radio « Musique douce » et « La mer »,
   les voix d'accueil et d'au revoir). La « Playlist 1 » se joue avec une connexion internet.
+
+Nouveautés de la version 19 :
+- L'explication du concept (juste après l'accueil) est lue par une nouvelle voix de femme (Voix pub, ElevenLabs).
 
 Nouveautés de la version 18 :
 - Code du porte-monnaie scanné sur un autre appareil : le message explique pourquoi il ne s'ouvre pas
@@ -150,7 +153,7 @@ Il faut des comptes développeur :
 4. METTRE À JOUR L'APPLI
 ------------------------
 Quand le site change : remplacer les fichiers en ligne, puis ouvrir « sw.js »
-et changer la ligne VERSION (cette version est papageno-v18 ; la prochaine sera papageno-v19).
+et changer la ligne VERSION (cette version est papageno-v19 ; la prochaine sera papageno-v20).
 Les téléphones récupèrent alors la nouvelle version à leur prochaine visite.
 
 
