@@ -3140,7 +3140,8 @@ const Welcome = {
     const end = () => {
       showAnnonce(SITE_EXPLAIN, 15000);   // reste à l'écran un moment après la voix
       clearTimeout(this.tipT); this.tipT = setTimeout(annonce, 16500);   // puis le conseil de la maison
-      if (Sound.on && !Radio.station){ try { Radio.play('playlist'); } catch(e) {} }   // la Playlist 1, dans un ordre aléatoire
+      // la Playlist 1 (ordre aléatoire) démarre une fois l'explication retirée de l'écran
+      setTimeout(() => { if (Sound.on && !Radio.station){ try { Radio.play('playlist'); } catch(e) {} } }, 15500);
     };
     this.playFile('explication', SITE_EXPLAIN, end);
   },

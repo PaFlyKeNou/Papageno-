@@ -1,4 +1,4 @@
-PAPAGENO · L'APPLICATION MOBILE (version 15)
+PAPAGENO · L'APPLICATION MOBILE (version 16)
 ============================================
 
 Ce dossier contient l'application mobile de Papageno.
@@ -10,6 +10,10 @@ Une fois installée, Papageno :
 - s'ouvre en plein écran, comme une vraie appli ;
 - reste ouverte même sans réseau (la boutique, le bocal, la radio « Musique douce » et « La mer »,
   les voix d'accueil et d'au revoir). La « Playlist 1 » se joue avec une connexion internet.
+
+Nouveautés de la version 16 :
+- La Playlist 1 démarre après l'explication du site (et non pendant qu'elle est lue) :
+  elle attend que le texte de l'explication disparaisse de l'écran.
 
 Nouveautés de la version 15 :
 - Le bouton « Une autre pensée » est retiré de la page de sortie.
@@ -137,7 +141,7 @@ Il faut des comptes développeur :
 4. METTRE À JOUR L'APPLI
 ------------------------
 Quand le site change : remplacer les fichiers en ligne, puis ouvrir « sw.js »
-et changer la ligne VERSION (cette version est papageno-v15 ; la prochaine sera papageno-v16).
+et changer la ligne VERSION (cette version est papageno-v16 ; la prochaine sera papageno-v17).
 Les téléphones récupèrent alors la nouvelle version à leur prochaine visite.
 
 
