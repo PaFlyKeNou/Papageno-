@@ -1805,7 +1805,6 @@ body::before{content:"";position:fixed;left:0;right:0;top:0;height:env(safe-area
         <div class="awning" aria-hidden="true"></div>
         <div class="sign">
           <h1 id="home-title"><span class="brand-word"><span class="sr">Papageno</span><span aria-hidden="true">Papagen<svg class="tortue" viewBox="0 0 100 110" focusable="false"><use href="#tortue"/></svg></span></span></h1>
-          <p>Supérette des choses qu'on ne dit pas</p>
         </div>
         <div class="garland" id="garland" aria-hidden="true"></div>
       </div>
@@ -2424,7 +2423,7 @@ body::before{content:"";position:fixed;left:0;right:0;top:0;height:env(safe-area
         <div class="card-panel breathe">
           <div style="align-self:stretch">
             <h3>La pause cohérence cardiaque</h3>
-            <p class="sub">Inspire 5 secondes, expire 5 secondes&nbsp;: six respirations par minute. Une technique simple pour s'apaiser, à refaire quand tu veux. La règle « 365 »&nbsp;: 3 fois par jour, 6 respirations par minute, pendant 5 minutes.</p>
+            <p class="sub">Installe-toi correctement&nbsp;: assis·e bien droit·e, ou allongé·e, les épaules détendues. Puis inspire 5 secondes, expire 5 secondes&nbsp;: six respirations par minute. Une technique simple pour s'apaiser, à refaire quand tu veux. La règle « 365 »&nbsp;: 3 fois par jour, 6 respirations par minute, pendant 5 minutes.</p>
           </div>
           <div class="dur" role="radiogroup" aria-label="Durée de la pause">
             <label><input type="radio" name="dur" value="60" checked><span>1 minute</span></label>
@@ -3042,7 +3041,7 @@ const Welcome = {
   playFile(k, fallbackText, done){
     let called = false, safe = null;
     const fin = () => { if (called) return; called = true; clearTimeout(safe); if (done) done(); };
-    if (done) safe = setTimeout(fin, 12000);   // au cas où le navigateur ne signale pas la fin
+    if (done) safe = setTimeout(fin, 60000);   // au cas où le navigateur ne signale pas la fin (assez long pour finir l'explication de 24 s)
     const src = VOICE_FILES[k];
     if (!Sound.on || !src){ fin(); return; }
     if (!this.raw[k]) this.preload();

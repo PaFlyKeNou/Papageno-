@@ -11,6 +11,11 @@ Une fois installée, Papageno :
 - reste ouverte même sans réseau (la boutique, le bocal, la radio « Musique douce » et « La mer »,
   les voix d'accueil et d'au revoir). La « Playlist 1 » se joue avec une connexion internet.
 
+Nouveautés de la version 26 :
+- Accueil : l'explication audio (explication.mp3) n'est plus coupée au bout de 12 secondes ; elle va jusqu'au bout avant la Playlist 1.
+- Façade : la phrase « Supérette des choses qu'on ne dit pas » sous l'enseigne est retirée.
+- Cohérence cardiaque : une phrase invite à bien s'installer (assis·e bien droit·e, ou allongé·e) avant de commencer.
+
 Nouveautés de la version 25 :
 - Rencontres : plus aucune mention de Telegram. Le contact (pseudo Signal ou e-mail) devient facultatif ; la case Telegram disparaît.
 
