@@ -2507,7 +2507,7 @@ body::before{content:"";position:fixed;left:0;right:0;top:0;height:env(safe-area
           <form class="card-panel form-grid" id="meet-form" novalidate>
             <h3>Je rejoins le groupe</h3>
             <label class="fld" for="m-name">Prénom ou pseudo<input id="m-name" maxlength="40" autocomplete="given-name"></label>
-            <label class="fld" for="m-contact">Comment te prévenir&nbsp;? (facultatif) Pseudo Signal ou e-mail<input id="m-contact" maxlength="80" inputmode="email" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="@ton_pseudo ou toi@exemple.fr" aria-describedby="m-contact-help"></label>
+            <label class="fld" for="m-contact">Comment te prévenir&nbsp;? (facultatif) Pseudo Signal ou e-mail<input id="m-contact" maxlength="80" inputmode="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="@ton_pseudo ou toi@exemple.fr" aria-describedby="m-contact-help"></label>
             <p class="note" id="m-contact-help" style="margin-top:-6px">Pas de numéro de portable, jamais. Un pseudo suffit, ou rien du tout&nbsp;: le lien du groupe Signal se trouve sur le site, avec le mot de la boutique.</p>
             <fieldset style="border:0;margin:0;padding:0"><legend class="fld" style="margin-bottom:6px">Ce qui me tente</legend>
               <div class="chips2" id="m-acts">
@@ -4941,9 +4941,8 @@ $('#meet-form').onsubmit = e => {
   const name = $('#m-name').value.trim(), contact = $('#m-contact').value.trim();
   if (!name){ m.textContent = 'Écris ton prénom ou un pseudo.'; $('#m-name').focus(); return; }
   // le contact est facultatif : un pseudo Signal (@nom) ou une adresse e-mail, jamais un numéro de portable
-  const c = contact.replace(/\s/g, ''), isMail = /^[^@]+@[^@]+\.[a-z]{2,}$/i.test(c), isTg = /^@?[a-z][a-z0-9_]{4,31}$/i.test(c) && !/^@?\d/.test(c);
+  const c = contact.replace(/\s/g, ''), isMail = /^[^@]+@[^@]+\.[a-z]{2,}$/i.test(c);
   if (/^\+?\d[\d.\-]{5,}$/.test(c)){ m.textContent = 'Pas besoin de numéro de portable : indique plutôt un pseudo (ex. @ton_pseudo) ou une adresse e-mail, ou laisse vide.'; $('#m-contact').focus(); return; }
-  if (c && !isMail && !isTg){ m.textContent = 'Ton contact doit être un pseudo (ex. @ton_pseudo) ou une adresse e-mail. Ou laisse le champ vide.'; $('#m-contact').focus(); return; }
   if ($('#m-minor').checked && !$('#m-minor-ok').checked){ m.textContent = "Avant moins de 18 ans, il faut l'accord d'un parent et un adulte de confiance."; return; }
   if (!$('#m-ok').checked){ m.textContent = 'Coche la case de la charte pour t\'inscrire.'; return; }
   const db = Store.load();
