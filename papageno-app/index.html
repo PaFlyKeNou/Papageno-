@@ -714,6 +714,10 @@ body.care-in-basket .care-bar{display:none}
 .bag-body small{font-weight:700;letter-spacing:.14em;font-size:12px;text-transform:uppercase}
 .handle{position:absolute;top:-56px;width:70px;height:80px;border:7px solid #b47a42;border-bottom:0;border-radius:40px 40px 0 0;z-index:0}
 .handle.l{left:22%} .handle.r{right:22%}
+.bag-goods{position:absolute;z-index:0;display:flex;align-items:flex-end;gap:2px;pointer-events:none}
+.bag-goods svg{display:block;filter:drop-shadow(0 3px 0 rgba(28,31,92,.22))}
+.bag-goods.l{left:-10px;top:112px}
+.bag-goods.r{right:-12px;top:126px}
 .thoughts{display:flex;flex-direction:column;gap:18px}
 .pensee{background:var(--paper);border:3px solid var(--ink);border-radius:18px;padding:22px 24px;box-shadow:6px 6px 0 var(--ink);rotate:-1deg}
 .pensee .k{display:inline-block;background:var(--mint);border-radius:999px;padding:2px 10px;font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase}
@@ -2664,10 +2668,18 @@ body::before{content:"";position:fixed;left:0;right:0;top:0;height:env(safe-area
       <div class="bag">
         <span class="handle l" aria-hidden="true"></span><span class="handle r" aria-hidden="true"></span>
         <div id="exit-receipt"></div>
+        <!-- quelques courses qui dépassent du sac : carottes, salade, baguette (décor) -->
+        <div class="bag-goods l" aria-hidden="true">
+          <svg viewBox="0 0 60 100" width="50" height="84" style="rotate:14deg"><path d="M14 30 L46 30 L34 94 Q30 100 26 94 Z" fill="#f08a24" stroke="#1c1f5c" stroke-width="4" stroke-linejoin="round"/><path d="M22 30 C20 14 26 6 30 4 C34 6 40 14 38 30 Z" fill="#4caf50" stroke="#1c1f5c" stroke-width="4" stroke-linejoin="round"/></svg>
+          <svg viewBox="0 0 90 70" width="72" height="56"><path d="M8 50 C4 26 24 10 45 14 C66 10 86 26 82 50 C70 62 20 62 8 50 Z" fill="#7bc96f" stroke="#1c1f5c" stroke-width="4" stroke-linejoin="round"/><path d="M30 46 Q45 28 60 46" fill="none" stroke="#1c1f5c" stroke-width="3" stroke-linecap="round"/></svg>
+        </div>
+        <div class="bag-goods r" aria-hidden="true">
+          <svg viewBox="0 0 110 40" width="100" height="36" style="rotate:-16deg"><rect x="4" y="8" width="102" height="24" rx="12" fill="#e6b26a" stroke="#1c1f5c" stroke-width="4"/><path d="M26 14 L32 26 M50 12 L56 27 M74 14 L80 26" stroke="#b07a33" stroke-width="3" stroke-linecap="round"/></svg>
+        </div>
         <div class="bag-body">
-          <svg width="86" height="86" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="46" fill="#ffe15a" stroke="#1c1f5c" stroke-width="5"/><circle cx="35" cy="40" r="6" fill="#1c1f5c"/><circle cx="65" cy="40" r="6" fill="#1c1f5c"/><path d="M28 58q22 24 44 0" stroke="#1c1f5c" stroke-width="6" stroke-linecap="round" fill="none"/></svg>
-          <b>Merci&nbsp;!</b>
-          <small>À bientôt chez <span class="brand-word"><span class="sr">Papageno</span><span aria-hidden="true">Papagen<svg class="tortue caps" viewBox="0 0 100 110" focusable="false"><use href="#tortue"/></svg></span></span></small>
+          <svg class="tortue" viewBox="0 0 100 110" width="86" height="94" aria-hidden="true" focusable="false"><use href="#tortue"/></svg>
+          <b>Papageno</b>
+          <small>À bientôt&nbsp;!</small>
         </div>
         <!-- l'émoticône violette, collée comme un autocollant sur le coin du sac : visible sur tous les écrans -->
         <span class="bag-sticker" id="bag-sticker" aria-hidden="true"></span>
@@ -2677,12 +2689,10 @@ body::before{content:"";position:fixed;left:0;right:0;top:0;height:env(safe-area
         <figure class="quote"><blockquote id="quote-text"></blockquote><figcaption id="quote-src"></figcaption></figure>
       </div>
     </div>
-    <div class="exit-host"><span class="desk-av" aria-hidden="true"><svg viewBox="0 0 100 110" focusable="false"><use href="#tortue"/></svg></span><p id="exit-host">Merci de ta visite&nbsp;! On garde la lumière allumée pour toi.</p></div>
     <div class="exit-actions">
       <button type="button" class="cta" id="back-in">Revenir dans la boutique</button>
       <button type="button" class="btn ghost" id="to-street">Retour à la façade</button>
     </div>
-    <p class="exit-care" id="exit-care">Si c'est lourd ce soir, tu n'es pas seul·e&nbsp;: le <a href="tel:3114">3114</a> répond 24h/24, gratuitement.</p>
   </div>
   <div class="floor-strip checker" aria-hidden="true"></div>
 </section>
@@ -3118,13 +3128,13 @@ const Welcome = {
   play(first){
     clearTimeout(this.tipT);
     if (!first || this.said){
-      showAnnonce(first ? WELCOME_TEXT : 'Re-bonjour ! Ravis de te revoir chez Papageno.', first ? 14000 : 6000);
-      this.tipT = setTimeout(annonce, (first ? 14000 : 6000) + 1500);   // juste après l'accueil : le conseil de la maison
+      showAnnonce(first ? WELCOME_TEXT : 'Re-bonjour ! Ravis de te revoir chez Papageno.', first ? 10000 : 6000);
+      this.tipT = setTimeout(annonce, (first ? 10000 : 6000) + 1500);   // juste après l'accueil : le conseil de la maison
       this.jingle();
       return;
     }
     // premier accueil : le texte d'accueil pendant la voix, puis l'explication du site une fois la voix terminée
-    showAnnonce(WELCOME_TEXT, 14000);
+    showAnnonce(WELCOME_TEXT, 10000);
     this.jingle();
     this.said = true;
     clearTimeout(this.timer);
@@ -3133,13 +3143,13 @@ const Welcome = {
   // L'explication du site : écrite à l'écran et lue à voix haute (explication.mp3), puis la Playlist 1 démarre
   explain(){
     clearTimeout(this.tipT);
-    if (!Sound.on){ showAnnonce(SITE_EXPLAIN, 30000); this.tipT = setTimeout(annonce, 31500); return; }
-    showAnnonce(SITE_EXPLAIN, 60000);
+    if (!Sound.on){ showAnnonce(SITE_EXPLAIN, 10000); this.tipT = setTimeout(annonce, 11500); return; }
+    showAnnonce(SITE_EXPLAIN, 10000);
     const end = () => {
-      showAnnonce(SITE_EXPLAIN, 15000);   // reste à l'écran un moment après la voix
-      clearTimeout(this.tipT); this.tipT = setTimeout(annonce, 16500);   // puis le conseil de la maison
+      showAnnonce(SITE_EXPLAIN, 10000);   // reste à l'écran 10 secondes après la voix
+      clearTimeout(this.tipT); this.tipT = setTimeout(annonce, 11000);   // puis le conseil de la maison
       // la Playlist 1 (ordre aléatoire) démarre une fois l'explication retirée de l'écran
-      setTimeout(() => { if (Sound.on && !Radio.station){ try { Radio.play('playlist'); } catch(e) {} } }, 15500);
+      setTimeout(() => { if (Sound.on && !Radio.station){ try { Radio.play('playlist'); } catch(e) {} } }, 10500);
     };
     this.playFile('explication', SITE_EXPLAIN, end);
   },
@@ -3242,9 +3252,6 @@ function goExitNow(){
   $('#exit-lead').textContent = lead;
   ui.goodbye = "Merci pour ton passage chez Papageno" + (s.printed || s.replied ? ", et merci d'avoir partagé" + (s.replied ? ' et rendu la monnaie' : '') : '')
     + ". " + goodbyeEnd().replace('24h/24', '24 heures sur 24');
-  $('#exit-care').hidden = false;
-  $('#exit-host').textContent = 'Merci de ta visite ! ' + (isSoir() ? 'Bonne soirée à toi.' : 'Bonne journée à toi.')
-    + ' On garde la lumière allumée, reviens quand tu veux.';
   $('#exit-receipt').innerHTML = exitReceipt();
   nextThought();
   exitDecor();
@@ -5413,6 +5420,7 @@ let annIdx = Math.floor(Math.random() * ANNONCES.length);
 const ANNONCE_TIP = "Petit conseil de la maison : passe faire un tour aux rayons Les chiffres et Rencontres, de belles surprises t'y attendent !";
 let annCount = 0;
 function showAnnonce(text, ms = 9000){
+  ms = Math.min(ms, 10000);   // une annonce écrite ne reste jamais plus de 10 secondes
   const a = $('#annonce');
   $('#annonce-txt').textContent = text;
   a.classList.add('on');
@@ -5422,7 +5430,7 @@ function showAnnonce(text, ms = 9000){
 function annonce(){
   if ($('#store').hidden || Date.now() < (showAnnonce.until || 0)) return;
   const tip = annCount++ % 3 === 0;
-  showAnnonce(tip ? ANNONCE_TIP : ANNONCES[annIdx++ % ANNONCES.length], tip ? 12000 : 9000);
+  showAnnonce(tip ? ANNONCE_TIP : ANNONCES[annIdx++ % ANNONCES.length], tip ? 10000 : 9000);
 }
 setTimeout(function loop(){ annonce(); setTimeout(loop, 45000); }, 12000);
 
@@ -5921,7 +5929,6 @@ const Motion = {
       { duration: 1000, delay: 1250, easing:'cubic-bezier(.3,.7,.3,1)' });
     $$('#exit .pensee, #exit .quote').forEach((el, i) => anim(el, [{ opacity: 0, transform:'translateX(30px)' }, { opacity: 1, transform:'none' }], { duration: 620, delay: 760 + i * 150 }));
     // l'hôtesse te raccompagne jusqu'à la porte, avec un signe de la main
-    anim($('#exit .exit-host'), [{ opacity: 0, transform:'translateY(18px) scale(.9)' }, { opacity: 1, transform:'none' }], { duration: 640, delay: 1600, easing:'cubic-bezier(.2,1.3,.4,1)' });
     // la clochette sonne : des cœurs s'envolent vers le haut, au-dessus du titre, et s'effacent sans retomber sur le texte
     setTimeout(() => {
       const b = $('#bell'); if (!b || $('#exit').hidden) return;
