@@ -699,11 +699,12 @@ body.care-in-basket .care-bar{display:none}
 .exit-lead{display:flex;align-items:flex-start;gap:12px;max-width:62ch;font-size:18px;line-height:1.45;margin:16px 0 30px;text-align:left;
   background:var(--paper);border:2.5px solid var(--ink);border-radius:18px;padding:12px 18px 12px 12px;box-shadow:4px 4px 0 var(--ink)}
 .exit-lead .spk{flex:none;display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--ink);color:var(--butter)}
+.exit-lead.gone{opacity:0;visibility:hidden;transition:opacity .5s}
 .exit-lead em{font-style:normal;font-weight:700;color:var(--tomato-deep);margin-right:2px}
 .exit-grid{display:grid;grid-template-columns:minmax(0,380px) minmax(0,1fr);gap:40px;align-items:center;width:100%;text-align:left}
 @media (max-width:860px){.exit-grid{grid-template-columns:minmax(0,1fr)}}
 .bag{position:relative;width:min(340px,100%);margin:84px auto 0;padding-top:170px} /* anses et ticket loin du texte */
-.bag .ticket{position:absolute;left:50%;top:0;width:78%;translate:-50% 0;rotate:-4deg;font-size:12.5px;z-index:1;height:200px}
+.bag .ticket{position:absolute;left:31%;top:0;width:62%;translate:-50% 0;rotate:-4deg;font-size:12.5px;z-index:1;height:200px}
 .bag .ticket .t-meta{border-bottom:0;margin-bottom:0}   /* le ticket s'arrête net : plus de ligne coupée par le bord du sac */
 .bag-body{position:relative;z-index:2;height:300px;background:#d9a46d;border-radius:4px 4px 10px 10px;
   background-image:linear-gradient(90deg,rgba(0,0,0,.06) 0 12%,transparent 12% 88%,rgba(0,0,0,.06) 88%),repeating-linear-gradient(0deg,rgba(255,255,255,.05) 0 2px,transparent 2px 6px);
@@ -716,17 +717,17 @@ body.care-in-basket .care-bar{display:none}
 .handle.l{left:22%} .handle.r{right:22%}
 .bag-goods{position:absolute;z-index:0;display:flex;align-items:flex-end;gap:2px;pointer-events:none}
 .bag-goods svg{display:block;filter:drop-shadow(0 3px 0 rgba(28,31,92,.22))}
-.bag-goods.l{left:-10px;top:112px}
-.bag-goods.r{right:-12px;top:126px}
+.bag-goods.r{right:-12px;top:100px}
+.bag-goods.r2{right:-14px;top:146px}
 .thoughts{display:flex;flex-direction:column;gap:18px}
 .pensee{background:var(--paper);border:3px solid var(--ink);border-radius:18px;padding:22px 24px;box-shadow:6px 6px 0 var(--ink);rotate:-1deg}
 .pensee .k{display:inline-block;background:var(--mint);border-radius:999px;padding:2px 10px;font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase}
 .pensee p{margin:10px 0 0;font-family:var(--display);font-size:clamp(22px,2.6vw,30px);line-height:1.15}
 .quote{margin:0;background:var(--lilac);border-radius:18px;padding:58px 26px 24px;position:relative;rotate:.8deg}
-.quote::before{content:"«";position:absolute;left:14px;top:-26px;font-family:var(--display);font-size:90px;line-height:1;color:var(--tomato)}
+.quote::before{content:"«";position:absolute;left:14px;top:-4px;font-family:var(--display);font-size:clamp(28px,3.2vw,34px);line-height:1;color:var(--tomato)}
 .quote blockquote{margin:0;font-size:clamp(19px,2.1vw,23px);line-height:1.4;font-weight:600}
 /* le guillemet fermant, assorti au grand « d'ouverture (espace fine insécable, à la française) */
-.quote blockquote::after{content:"\202F»";font-family:var(--display);font-weight:400;font-size:1.5em;line-height:0;vertical-align:-.06em;color:var(--tomato)}
+.quote blockquote::after{content:"\202F»";font-family:var(--display);font-weight:400;font-size:clamp(28px,3.2vw,34px);line-height:0;vertical-align:-.06em;color:var(--tomato)}
 .quote figcaption{margin-top:10px;font-family:var(--mono);font-size:14px}
 .exit-actions{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:30px}
 /* le cadre du 3114 est descendu sous les boutons, bien à part (environ 5 cm plus bas qu'avant) */
@@ -2669,17 +2670,16 @@ body::before{content:"";position:fixed;left:0;right:0;top:0;height:env(safe-area
         <span class="handle l" aria-hidden="true"></span><span class="handle r" aria-hidden="true"></span>
         <div id="exit-receipt"></div>
         <!-- quelques courses qui dépassent du sac : carottes, salade, baguette (décor) -->
-        <div class="bag-goods l" aria-hidden="true">
+        <div class="bag-goods r" aria-hidden="true">
           <svg viewBox="0 0 60 100" width="50" height="84" style="rotate:14deg"><path d="M14 30 L46 30 L34 94 Q30 100 26 94 Z" fill="#f08a24" stroke="#1c1f5c" stroke-width="4" stroke-linejoin="round"/><path d="M22 30 C20 14 26 6 30 4 C34 6 40 14 38 30 Z" fill="#4caf50" stroke="#1c1f5c" stroke-width="4" stroke-linejoin="round"/></svg>
           <svg viewBox="0 0 90 70" width="72" height="56"><path d="M8 50 C4 26 24 10 45 14 C66 10 86 26 82 50 C70 62 20 62 8 50 Z" fill="#7bc96f" stroke="#1c1f5c" stroke-width="4" stroke-linejoin="round"/><path d="M30 46 Q45 28 60 46" fill="none" stroke="#1c1f5c" stroke-width="3" stroke-linecap="round"/></svg>
         </div>
-        <div class="bag-goods r" aria-hidden="true">
+        <div class="bag-goods r2" aria-hidden="true">
           <svg viewBox="0 0 110 40" width="100" height="36" style="rotate:-16deg"><rect x="4" y="8" width="102" height="24" rx="12" fill="#e6b26a" stroke="#1c1f5c" stroke-width="4"/><path d="M26 14 L32 26 M50 12 L56 27 M74 14 L80 26" stroke="#b07a33" stroke-width="3" stroke-linecap="round"/></svg>
         </div>
         <div class="bag-body">
-          <svg class="tortue" viewBox="0 0 100 110" width="86" height="94" aria-hidden="true" focusable="false"><use href="#tortue"/></svg>
+          <svg class="tortue" viewBox="0 0 100 110" width="130" height="143" aria-hidden="true" focusable="false"><use href="#tortue"/></svg>
           <b>Papageno</b>
-          <small>À bientôt&nbsp;!</small>
         </div>
         <!-- l'émoticône violette, collée comme un autocollant sur le coin du sac : visible sur tous les écrans -->
         <span class="bag-sticker" id="bag-sticker" aria-hidden="true"></span>
@@ -3180,7 +3180,7 @@ function exitDecor(){
   // l'émoticône violette est un autocollant sur le coin du sac : elle suit le sac, donc reste visible partout
   $('#bag-sticker').innerHTML = smileySVG('#c9c3ff', 64);
   // les autres se posent dans les espaces libres (voir placeSmileys)
-  const spots = [[5,18,74,'#ffb3d1',-12],[94,14,64,'#9fe6bf',10],[96,48,70,'#fffdf5',-8],[5,88,52,'#ffc49b',14],[95,84,58,'#b6dcff',-14]];
+  const spots = [[94,14,64,'#9fe6bf',10],[96,48,70,'#fffdf5',-8],[5,88,52,'#ffc49b',14],[95,84,58,'#b6dcff',-14]];
   let html = spots.map(([x,y,s,c,r], i) =>
     `<span class="smiley" data-x="${x}" data-y="${y}" data-s="${s}" style="rotate:${r}deg;animation-delay:${-i*0.8}s">${smileySVG(c, s)}</span>`).join('');
   if (!reduced){
@@ -3250,6 +3250,9 @@ function goExitNow(){
     ? "Merci d'avoir partagé" + (s.replied ? ' et rendu la monnaie' : '') + ". Ce que tu as posé ici compte. "
     : "Merci d'avoir poussé la porte. ") + goodbyeEnd();
   $('#exit-lead').textContent = lead;
+  const lead0 = $('#exit .exit-lead');
+  lead0.classList.remove('gone'); clearTimeout(ui.leadT);
+  ui.leadT = setTimeout(() => lead0.classList.add('gone'), 10000);   // l'annonce reste 10 secondes
   ui.goodbye = "Merci pour ton passage chez Papageno" + (s.printed || s.replied ? ", et merci d'avoir partagé" + (s.replied ? ' et rendu la monnaie' : '') : '')
     + ". " + goodbyeEnd().replace('24h/24', '24 heures sur 24');
   $('#exit-receipt').innerHTML = exitReceipt();
@@ -4590,6 +4593,12 @@ function stopBreath(done){
   if (done){ ui.session.breath++; }
 }
 $('#br-start').onclick = () => {
+  // la radio se tait pendant la respiration, puis reprend 2 minutes après
+  if (Radio.on){
+    BR.radioSt = Radio.station; Radio.stop(true); Radio.paint();
+    clearTimeout(BR.radioT);
+    BR.radioT = setTimeout(() => { if (!Radio.on && BR.radioSt) Radio.play(BR.radioSt); BR.radioSt = ''; }, 120000);
+  }
   BR.left = +document.querySelector('input[name="dur"]:checked').value;
   BR.inhale = true; let sec = 0;
   $('#br-start').hidden = true; $('#br-stop').hidden = false;

@@ -1,4 +1,4 @@
-PAPAGENO · L'APPLICATION MOBILE (version 21)
+PAPAGENO · L'APPLICATION MOBILE (version 22)
 ============================================
 
 Ce dossier contient l'application mobile de Papageno.
@@ -10,6 +10,10 @@ Une fois installée, Papageno :
 - s'ouvre en plein écran, comme une vraie appli ;
 - reste ouverte même sans réseau (la boutique, le bocal, la radio « Musique douce » et « La mer »,
   les voix d'accueil et d'au revoir). La « Playlist 1 » se joue avec une connexion internet.
+
+Nouveautés de la version 22 :
+- La radio se tait pendant la cohérence cardiaque et reprend 2 minutes après.
+- Sortie : l'annonce « Merci d'avoir poussé la porte » s'efface après 10 secondes ; le ticket est à gauche, les courses à droite ; le logo est plus grand ; l'émoticône rose est retirée ; les guillemets de la citation ont la même taille.
 
 Nouveautés de la version 21 :
 - Les annonces écrites restent 10 secondes maximum (accueil, explication, conseil, annonces).
@@ -163,7 +167,7 @@ Il faut des comptes développeur :
 4. METTRE À JOUR L'APPLI
 ------------------------
 Quand le site change : remplacer les fichiers en ligne, puis ouvrir « sw.js »
-et changer la ligne VERSION (cette version est papageno-v21 ; la prochaine sera papageno-v22).
+et changer la ligne VERSION (cette version est papageno-v22 ; la prochaine sera papageno-v23).
 Les téléphones récupèrent alors la nouvelle version à leur prochaine visite.
 
 
