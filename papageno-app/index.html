@@ -2897,7 +2897,7 @@ async function enterStore(){
     await wait(420);
   }
   await Portal.run('in', {
-    onOpen: () => { showScene('store'); setAisle(ui.aisle, true); chime(); Welcome.play(first); },   // le ding ding : seulement quand quelqu'un entre
+    onOpen: () => { showScene('store'); setAisle(ui.aisle, true); chime(); Welcome.play(first, true); },   // le ding ding : seulement quand quelqu'un entre
     onPass: () => Motion.lightsOn(first)
   });
   $('#door').classList.remove('open'); $('#storefront').classList.remove('entering');
@@ -3129,8 +3129,10 @@ const Welcome = {
       speechSynthesis.cancel(); speechSynthesis.speak(u);
     } catch(e) { fin(); }
   },
-  play(first){
+  play(first, door){
     clearTimeout(this.tipT);
+    // chaque entrée par la porte de la façade : l'explication est lue (texte et voix), même pour une personne déjà venue
+    if (door && !first){ this.jingle(); clearTimeout(this.timer); this.timer = setTimeout(() => this.explain(), 900); return; }
     if (!first || this.said){
       showAnnonce(first ? WELCOME_TEXT : 'Re-bonjour ! Ravis de te revoir chez Papageno.', first ? 10000 : 6000);
       this.tipT = setTimeout(annonce, (first ? 10000 : 6000) + 1500);   // juste après l'accueil : le conseil de la maison
