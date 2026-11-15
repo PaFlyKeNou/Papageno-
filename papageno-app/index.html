@@ -4296,6 +4296,15 @@ const DEMO = true;
 const PM_ABC = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';   // ni 0/O, ni 1/I/L : impossible de se tromper en recopiant
 const normCode = s => String(s || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
 const fmtCode = s => normCode(s).slice(0, 12).replace(/(.{4})(?=.)/g, '$1-');
+// Base partagée (Supabase, Paris). La clé « publishable » est publique : elle peut figurer ici.
+const SB = { url: 'https://bjxdcdtynrnvqyttewxu.supabase.co', key: 'sb_publishable_ulm5pKDTYF-EVCi1KbSqWw_HuoK4VVc' };
+async function sbRpc(fn, body){
+  const r = await fetch(`${SB.url}/rest/v1/rpc/${fn}`, { method: 'POST',
+    headers: { apikey: SB.key, Authorization: 'Bearer ' + SB.key, 'Content-Type': 'application/json' },
+    body: JSON.stringify(body) });
+  if (!r.ok) throw new Error('supabase ' + r.status);
+  return r.json();
+}
 const PM = {
   fails: 0, waitUntil: 0,
   // 12 caractères tirés au hasard par le navigateur (plus de 700 millions de milliards de codes possibles)
@@ -4304,15 +4313,21 @@ const PM = {
     while (out.length < 12){ crypto.getRandomValues(buf); for (const b of buf) if (b < 248 && out.length < 12) out.push(PM_ABC[b % 31]); }
     return fmtCode(out.join(''));
   },
-  ensure(){
-    const db = Store.load(), m = me();
-    if (!m.code){
-      db.codes = db.codes || {};
-      let c; do { c = this.make(); } while (db.codes[normCode(c)]);
-      m.code = c; db.codes[normCode(c)] = { id: m.id, handle: m.handle };
-      Store.save(); ui.newCode = true;
-    }
-    return m.code;
+  async ensure(){
+    if (me().code) return me().code;
+    if (this.pending) return this.pending;
+    this.pending = (async () => {
+      try {
+        const code = fmtCode(await sbRpc('creer_porte_monnaie', { p_handle: me().handle }));
+        const db = Store.load(); db.me.code = code; Store.save();
+        ui.newCode = true; this.render();
+        return code;
+      } catch(e) {
+        toast('Ton code porte-monnaie n\'a pas pu être créé : vérifie ta connexion. Il sera créé avec ton prochain ticket.');
+        return null;
+      } finally { this.pending = null; }
+    })();
+    return this.pending;
   },
   // le QR code ouvre directement le porte-monnaie sur le site en ligne ; ailleurs, il contient le code à recopier
   link(code){
@@ -4387,7 +4402,7 @@ const PM = {
     toast('Tu es déconnecté·e de cet appareil. Ton code rouvrira ton porte-monnaie quand tu voudras.');
     $('#pm-in')?.focus();
   },
-  login(e){
+  async login(e){
     e.preventDefault();
     const err = $('#pm-err'), input = $('#pm-in'), val = normCode(input.value);
     const fail = msg => { err.hidden = false; err.textContent = msg; input.focus(); };
@@ -4395,34 +4410,45 @@ const PM = {
     if (Date.now() < this.waitUntil) return fail('Trop d\'essais d\'affilée : attends 30 secondes avant de réessayer.');
     if (val.length !== 12 || [...val].some(ch => !PM_ABC.includes(ch)))
       return fail('Un code fait 12 lettres et chiffres, par exemple 7K3Q-9XM2-4HPA. Il ne contient jamais 0, O, 1, I ni L.');
-    const db = Store.load(), hit = (db.codes || {})[val];
+    const hit = await this.lookup(val);
+    if (hit === undefined) return fail('Impossible de vérifier ce code pour l\'instant. Vérifie ta connexion, puis réessaie.');
     if (!hit){
       if (++this.fails >= 5){ this.fails = 0; this.waitUntil = Date.now() + 30000; }   // contre ceux qui essaient des codes au hasard
-      return fail('Ce code n\'est pas connu sur cet appareil. Pour l\'instant, un code ne s\'ouvre que sur l\'appareil où il a été créé ; la version partagée, qui le rendra utilisable partout, est en préparation. Vérifie aussi chaque lettre et chaque chiffre.');
+      return fail('Code inconnu. Vérifie chaque lettre et chaque chiffre.');
     }
     this.fails = 0;
-    db.me = { id: hit.id, handle: hit.handle, code: fmtCode(val) }; Store.save();
+    const db = Store.load();
+    db.me = { id: 'pm-' + val, handle: hit.handle, code: fmtCode(val) }; Store.save();
     Object.assign(ui, { loggedOut: false, prefill: '', purse: false, opened: null, walletOpen: true });
     resetComposer(); render();
     Joy.walletOpen();
     toast('Bon retour ! Ton porte-monnaie est ouvert.');
   },
+  // demande au serveur si ce code existe : le pseudo si oui, null si non, undefined si le serveur ne répond pas
+  async lookup(code){
+    try { const rows = await sbRpc('ouvrir_porte_monnaie', { p_code: code }); return rows && rows[0] ? rows[0] : null; }
+    catch(e) { return undefined; }
+  },
   // le lien du QR code (…#pm=CODE) : on pré-remplit le code, on file au porte-monnaie, et on efface le code de l'adresse
-  fromLink(){
+  async fromLink(){
     const m = /[#&]pm=([A-Za-z0-9-]{12,14})/.exec(location.hash);
     if (!m) return;
     const code = fmtCode(m[1]);
     try { history.replaceState(null, '', location.pathname + location.search); } catch(e) {}
     if (me().code && normCode(me().code) === normCode(code)) { ui.aisle = 'mine'; return; }
     ui.prefill = code; ui.aisle = 'mine';
-    // scan : si le code est connu sur cet appareil, il est enregistré tout seul et le porte-monnaie s'ouvre
-    const db = Store.load(), hit = (db.codes || {})[normCode(code)];
+    // scan : si le code existe sur le serveur, le porte-monnaie s'ouvre tout seul sur cet appareil
+    const hit = await this.lookup(normCode(code));
     if (hit){
-      db.me = { id: hit.id, handle: hit.handle, code }; Store.save();
+      const db = Store.load();
+      db.me = { id: 'pm-' + normCode(code), handle: hit.handle, code }; Store.save();
       Object.assign(ui, { loggedOut: false, prefill: '', purse: false, opened: null, walletOpen: true, newCode: false });
       toast('Ton code est enregistré sur cet appareil. Ton porte-monnaie est ouvert.');
+      render();
+    } else if (hit === null) {
+      toast('Ce code n\'est pas reconnu. Vérifie-le, ou appuie sur « Ouvrir mon porte-monnaie ».');
     } else {
-      toast('Code reçu, mais il n\'est pas encore sur cet appareil. Pour l\'instant, il ne s\'ouvre que là où il a été créé.');
+      toast('Code reçu, mais impossible de le vérifier pour l\'instant. Vérifie ta connexion.');
     }
   }
 };
