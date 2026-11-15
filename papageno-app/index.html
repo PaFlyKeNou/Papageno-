@@ -736,6 +736,8 @@ body.care-in-basket .care-bar{display:none}
 .bag-sticker{position:absolute;left:-14px;bottom:-24px;z-index:3;width:64px;height:64px;rotate:-12deg;pointer-events:none;animation:bob 5s ease-in-out -1.6s infinite}
 .bag-sticker svg{display:block;filter:drop-shadow(0 4px 0 rgba(28,31,92,.22))}
 .exit-care a{color:var(--butter)}
+.sig-join{margin-top:12px;display:grid;gap:10px;max-width:420px}
+.sig-link{display:inline-flex;align-items:center;min-height:44px;font-weight:700;color:var(--tomato-deep);text-decoration:underline}
 .smiley{position:absolute;z-index:1;animation:bob 5s ease-in-out infinite;pointer-events:none}
 @keyframes bob{0%,100%{translate:0 0}50%{translate:0 -14px}}
 /* les confettis tombent sur les bords, derrière les textes (z-index sous .exit-inner), et s'effacent en bas :
@@ -2481,7 +2483,7 @@ body::before{content:"";position:fixed;left:0;right:0;top:0;height:env(safe-area
           <div class="course">
             <div><small>L'entrée</small><b>Groupe de parole</b><p>Un cercle de 6 à 12 personnes, accompagné. Tu parles si tu veux, tu écoutes si tu préfères.</p></div>
             <div><small>Le plat</small><b>Le moment ensemble</b><p>Tennis, resto, balade, pétanque, ciné… On choisit ensemble, sans pression de performance.</p></div>
-            <div><small>Le dessert</small><b>Le groupe Telegram</b><p>Pour garder le lien entre deux rencontres, et ne plus rester seul·e avec ce qui pèse. Avec ton pseudo, sans donner ton numéro. L'organisatrice t'y ajoute à la main.</p></div>
+            <div><small>Le dessert</small><b>Le groupe Signal</b><p>Pour garder le lien entre deux rencontres, et ne plus rester seul·e avec ce qui pèse. Pas besoin de donner ton e-mail ni ton numéro ici.</p></div>
           </div>
           <ul class="reassure">
             <li><b>Qui anime</b><span>La fondatrice du comptoir, préparatrice mentale et secouriste en santé mentale. Elle écoute et oriente, elle ne soigne pas.</span></li>
@@ -2492,7 +2494,11 @@ body::before{content:"";position:fixed;left:0;right:0;top:0;height:env(safe-area
           <div class="faq">
             <details><summary>Je ne connais personne.</summary><p>C'est le cas de presque tout le monde la première fois. Le cercle est fait pour ça.</p></details>
             <details><summary>Je suis obligé·e de parler&nbsp;?</summary><p>Non. Tu peux écouter du début à la fin. Être là, c'est déjà beaucoup.</p></details>
-            <details><summary>Comment j'entre dans le groupe Telegram&nbsp;?</summary><p>Tu laisses ton pseudo Telegram dans le formulaire, ou ton e-mail. L'organisatrice lit chaque demande et t'ajoute elle-même au groupe. Pas de lien public&nbsp;: le groupe reste fermé, pour que personne d'autre n'y entre.</p></details>
+            <details><summary>Comment j'entre dans le groupe Signal&nbsp;?</summary><p>Tape le mot de passe que tu trouves dans la boutique. Le lien du groupe s'affiche alors. Chaque demande est validée par l'organisatrice avant que tu entres.</p>
+<div class="sig-join"><label class="fld" for="sig-word">Mot de passe de la boutique<input id="sig-word" maxlength="40" autocomplete="off" autocapitalize="characters" spellcheck="false"></label>
+<button type="button" class="btn" id="sig-go">Voir le lien</button>
+<p class="note" id="sig-msg" aria-live="polite"></p>
+<a id="sig-link" class="sig-link" href="#" rel="noopener" target="_blank" hidden>Ouvrir le groupe Signal</a></div></details>
             <details><summary>J'ai moins de 18 ans.</summary><p>Tu es bienvenu·e avec l'accord d'un parent, et accompagné·e d'un adulte de confiance.</p></details>
             <details><summary>Et si je vais très mal ce jour-là&nbsp;?</summary><p>Dis-le à l'animatrice. Elle n'est pas soignante, mais elle t'aidera à trouver le bon contact. En urgence&nbsp;: 3114, 15 ou 112.</p></details>
           </div>
@@ -4579,6 +4585,20 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape' && $('#care')
 //  Rayons repris de Cœur Express
 // =====================================================================
 const MOODS = { rouge:'PAS DU TOUT', orange:'ÇA TANGUE', vert:"J'AI DE LA FORCE" };
+
+// ---------- Le groupe Signal : le lien ne s'affiche qu'avec le mot de la boutique ----------
+const SIGNAL = { link: 'https://signal.group/#CjQKIAcPf78zPE093F5mhmn1JO4N1LJfnD1ygTFcsV6q9NixEhB64XM-byyxEaEBUuHcNMBl', word: 'GALAPAGOS' };
+const normWord = w => w.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^A-Za-z]/g, '').toUpperCase();
+$('#sig-go').onclick = () => {
+  const msg = $('#sig-msg'), a = $('#sig-link');
+  if (normWord($('#sig-word').value) === SIGNAL.word){
+    a.href = SIGNAL.link; a.hidden = false; msg.textContent = 'Bienvenue ! Le lien est ouvert ci-dessous.';
+    a.focus();
+  } else {
+    a.hidden = true; msg.textContent = "Ce mot n'est pas le bon. Regarde bien dans la boutique.";
+    $('#sig-word').focus();
+  }
+};
 
 // ---------- Le Café des Heureux : cohérence cardiaque ----------
 const BR = { t:null, left:0, inhale:true };
