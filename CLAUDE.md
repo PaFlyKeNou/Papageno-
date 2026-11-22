@@ -94,3 +94,10 @@ Version de test : `<meta name="robots" content="noindex">` dans `index.html`, pl
   - un porte-monnaie ouvert par code ou QR code ;
   - l'espace organisatrice.
 - La Playlist 1 a besoin d'internet (elle n'est pas gardée hors connexion).
+
+## Règles pour les agents
+
+- Ne jamais pousser directement sur `main` : chaque push déploie le site en ligne. Créer une branche `agent/<sujet>`, puis une demande de fusion (pull request) relue par l'organisatrice.
+- Chaque demande de fusion augmente `VERSION` dans `sw.js` et ajoute la ligne « Nouveautés » dans `LISEZ-MOI.txt`. La vérification automatique doit passer.
+- Ne jamais retirer ni modifier les numéros d'urgence (3114, 15, 112), ni la modération.
+- Ne jamais lire ni modifier les données (tickets, inscriptions, porte-monnaie) sans demande explicite de l'organisatrice. Dans le site, seule la clé publishable est utilisée.

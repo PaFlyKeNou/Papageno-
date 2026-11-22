@@ -1,0 +1,34 @@
+name: Vérifier le site
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  verifier:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Syntaxe JavaScript de index.html
+        run: |
+          python3 - <<'PY'
+          import re
+          s = open('papageno-app/index.html', encoding='utf-8').read()
+          blocks = re.findall(r'<script(?![^>]*src=)[^>]*>(.*?)</script>', s, re.S)
+          open('/tmp/all.js', 'w', encoding='utf-8').write('\n;\n'.join(blocks))
+          PY
+          node --check /tmp/all.js
+
+      - name: Numéros d'urgence présents
+        run: |
+          for n in 3114 112; do
+            grep -q "$n" papageno-app/index.html || { echo "Le numéro $n manque dans index.html"; exit 1; }
+          done
+
+      - name: Version et Nouveautés cohérentes
+        run: |
+          V=$(grep -o "papageno-v[0-9]*" papageno-app/sw.js | head -1 | grep -o "[0-9]*$")
+          grep -q "Nouveautés de la version $V :" papageno-app/LISEZ-MOI.txt || { echo "Ajouter « Nouveautés de la version $V » dans LISEZ-MOI.txt"; exit 1; }
