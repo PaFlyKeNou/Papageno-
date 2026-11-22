@@ -4318,7 +4318,8 @@ const PM = {
     this.pending = (async () => {
       try {
         const code = fmtCode(await sbRpc('creer_porte_monnaie', { p_handle: me().handle }));
-        const db = Store.load(); db.me.code = code; Store.save();
+        const db = Store.load(), dev = db.token; db.me.code = code; Store.save();
+        sbRpc('rattacher_tickets', { p_token: dev, p_code: normCode(code) }).then(() => REMOTE.pull()).catch(() => {});
         ui.newCode = true; this.render();
         return code;
       } catch(e) {
@@ -4399,6 +4400,7 @@ const PM = {
     $('#t-mine .coin-dot')?.remove();
     resetComposer(); render();
     toast('Tu es déconnecté·e de cet appareil. Ton code rouvrira ton porte-monnaie quand tu voudras.');
+    REMOTE.pull();
     $('#pm-in')?.focus();
   },
   async login(e){
@@ -4422,6 +4424,7 @@ const PM = {
     resetComposer(); render();
     Joy.walletOpen();
     toast('Bon retour ! Ton porte-monnaie est ouvert.');
+    REMOTE.pull();
   },
   // demande au serveur si ce code existe : le pseudo si oui, null si non, undefined si le serveur ne répond pas
   async lookup(code){
@@ -4443,6 +4446,7 @@ const PM = {
       db.me = { id: 'pm-' + normCode(code), handle: hit.handle, code }; Store.save();
       Object.assign(ui, { loggedOut: false, prefill: '', purse: false, opened: null, walletOpen: true, newCode: false });
       toast('Ton code est enregistré sur cet appareil. Ton porte-monnaie est ouvert.');
+      REMOTE.pull();
       render();
     } else if (hit === null) {
       toast('Ce code n\'est pas reconnu. Vérifie-le, ou appuie sur « Ouvrir mon porte-monnaie ».');
@@ -4538,7 +4542,7 @@ function bindActions(){
                     status: a.risk === 'none' ? 'published' : 'held', risk: a.risk, flags: a };
       r.replies.push(rep);
       Store.save(); ui.session.replied++; render();
-      if (r.remoteId) sbRpc('repondre_ticket', { p_ticket_id: r.remoteId, p_handle: me().handle, p_body: body, p_risk: a.risk, p_token: Store.load().token })
+      if (r.remoteId) sbRpc('repondre_ticket', { p_ticket_id: r.remoteId, p_handle: me().handle, p_body: body, p_risk: a.risk, p_token: authToken() })
         .then(st => { rep.status = st; Store.save(); render(); })
         .catch(() => toast('Ta réponse n\'a pas pu partir. Elle reste sur cet appareil.'));
       if (a.categories.includes('selfharm')) openCare(a.risk);
@@ -4550,7 +4554,7 @@ function bindActions(){
     const r = Store.load().receipts.find(x => x.id === b.dataset.id);
     r.reports = (r.reports || 0) + 1;
     r.status = 'held'; Store.save(); render();
-    if (r.remoteId) sbRpc('signaler_ticket', { p_ticket_id: r.remoteId, p_token: Store.load().token }).catch(() => {});   // le signalement part dans la liste de relecture
+    if (r.remoteId) sbRpc('signaler_ticket', { p_ticket_id: r.remoteId, p_token: authToken() }).catch(() => {});   // le signalement part dans la liste de relecture
     toast("Merci. Ce ticket est mis de côté le temps qu'une personne le relise.");
   });
 }
@@ -6230,6 +6234,11 @@ render();
 
 // ---------- Le bocal partagé : tickets et mots doux (Supabase) ----------
 // Les tickets des autres viennent du serveur ; les tiens sont gardés sur l'appareil et renvoyés s'ils n'ont pas pu partir.
+// Jeton des tickets : celui du porte-monnaie (retrouvé sur tous les téléphones avec le code), sinon celui de l'appareil
+function authToken(){
+  const db = Store.load();
+  return db.me && db.me.code ? 'pm:' + normCode(db.me.code) : db.token;
+}
 const REMOTE = {
   busy: false, last: null,
   num(id){ return parseInt(String(id).replace(/-/g, '').slice(0, 6), 16) % 1000000; },
@@ -6238,7 +6247,7 @@ const REMOTE = {
     const db = Store.load();
     if (r.remoteId) return;
     try {
-      r.remoteId = await sbRpc('publier_ticket', { p_handle: r.handle, p_lines: r.lines, p_note: r.note || '', p_risk: r.risk || 'none', p_token: db.token });
+      r.remoteId = await sbRpc('publier_ticket', { p_handle: r.handle, p_lines: r.lines, p_note: r.note || '', p_risk: r.risk || 'none', p_token: authToken() });
       Store.save();
     } catch(e) { /* hors connexion : le ticket reste sur l'appareil et sera renvoyé au prochain passage */ }
   },
@@ -6248,8 +6257,8 @@ const REMOTE = {
       const db = Store.load(), mine = me().id;
       for (const r of db.receipts.filter(x => x.author === mine && !x.remoteId)) await this.publish(r);
       const [bocal, tickets] = await Promise.all([
-        sbRpc('lire_bocal', { p_token: db.token, p_limit: 60 }),
-        sbRpc('lire_mes_tickets', { p_token: db.token })
+        sbRpc('lire_bocal', { p_token: authToken(), p_limit: 60 }),
+        sbRpc('lire_mes_tickets', { p_token: authToken() })
       ]);
       // nos mots doux déjà envoyés sur les tickets des autres : on les garde
       const keptReplies = {};

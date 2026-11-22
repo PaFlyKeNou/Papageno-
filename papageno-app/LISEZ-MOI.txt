@@ -11,6 +11,9 @@ Une fois installée, Papageno :
 - reste ouverte même sans réseau (la boutique, le bocal, la radio « Musique douce » et « La mer »,
   les voix d'accueil et d'au revoir). La « Playlist 1 » se joue avec une connexion internet.
 
+Nouveautés de la version 50 :
+- Porte-monnaie : les tickets suivent le code. Avec ton code (ou le QR code), tu retrouves tes tickets et tes mots doux sur n'importe quel téléphone.
+
 Nouveautés de la version 49 :
 - Signalements : un ticket signalé est mis de côté et disparaît du bocal. Le signalement part dans la base, pour la relecture de l'organisatrice.
 
