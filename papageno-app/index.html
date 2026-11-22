@@ -2761,6 +2761,7 @@ const Store = {
     if (this.mem) return this.mem;
     try { this.mem = JSON.parse(localStorage.getItem(KEY)) } catch(e) {}
     if (!this.mem) this.mem = seed();
+    if (!this.mem.token) this.mem.token = uid();   // jeton secret de l'appareil : la base n'en garde qu'une empreinte
     // sur téléphone, le code porte-monnaie ne vit que le temps de la session (le visiteur le garde dans ses notes)
     if (onPhone()){ try { const k = JSON.parse(sessionStorage.getItem(PM_KEEP)); if (k && k.code) this.mem.me = k; } catch(e) {} }
     return this.mem;
@@ -3783,6 +3784,7 @@ $('#composer').onsubmit = async e => {
   const r = { id: uid(), no: db.ticketNo++, handle: me().handle, author: me().id, mood,
     status: a.risk === 'none' ? 'published' : 'held', risk: a.risk, flags: a, at: Date.now(), lines, note, replies: [] };
   db.receipts.unshift(r); Store.save(); ui.session.printed++;
+  REMOTE.publish(r);   // part dans le bocal partagé
   PM.ensure();   // le premier ticket crée le code porte-monnaie
 
   if (r.status === 'published') ui.fresh = r.id;
@@ -4532,9 +4534,13 @@ function bindActions(){
       const body = ta.value.trim(); if (!body) return;
       const a = analyze(body), fr = f.getBoundingClientRect();
       const r = Store.load().receipts.find(x => x.id === f.dataset.id);
-      r.replies.push({ id: uid(), handle: me().handle, author: me().id, body, at: Date.now(),
-                       status: a.risk === 'none' ? 'published' : 'held', risk: a.risk, flags: a });
+      const rep = { id: uid(), handle: me().handle, author: me().id, body, at: Date.now(),
+                    status: a.risk === 'none' ? 'published' : 'held', risk: a.risk, flags: a };
+      r.replies.push(rep);
       Store.save(); ui.session.replied++; render();
+      if (r.remoteId) sbRpc('repondre_ticket', { p_ticket_id: r.remoteId, p_handle: me().handle, p_body: body, p_risk: a.risk, p_token: Store.load().token })
+        .then(st => { rep.status = st; Store.save(); render(); })
+        .catch(() => toast('Ta réponse n\'a pas pu partir. Elle reste sur cet appareil.'));
       if (a.categories.includes('selfharm')) openCare(a.risk);
       else toast(a.risk === 'none' ? 'Monnaie rendue. Merci pour ce mot.' : 'Ta réponse sera relue avant d\'apparaître.');
       if (a.risk === 'none' && fr.width) Joy.gave(fr.left + fr.width / 2, Math.min(innerHeight - 80, Math.max(80, fr.top + fr.height / 2)));
@@ -6220,6 +6226,58 @@ renderMeet(); renderMerci();
 $('#poster-barcode').style.background = barcodeCSS('le-ticket');
 resetComposer();
 render();
+
+// ---------- Le bocal partagé : tickets et mots doux (Supabase) ----------
+// Les tickets des autres viennent du serveur ; les tiens sont gardés sur l'appareil et renvoyés s'ils n'ont pas pu partir.
+const REMOTE = {
+  busy: false, last: null,
+  num(id){ return parseInt(String(id).replace(/-/g, '').slice(0, 6), 16) % 1000000; },
+  when(iso){ return Date.parse(iso) || Date.now(); },
+  async publish(r){
+    const db = Store.load();
+    if (r.remoteId) return;
+    try {
+      r.remoteId = await sbRpc('publier_ticket', { p_handle: r.handle, p_lines: r.lines, p_note: r.note || '', p_risk: r.risk || 'none', p_token: db.token });
+      Store.save();
+    } catch(e) { /* hors connexion : le ticket reste sur l'appareil et sera renvoyé au prochain passage */ }
+  },
+  async pull(){
+    if (this.busy) return; this.busy = true;
+    try {
+      const db = Store.load(), mine = me().id;
+      for (const r of db.receipts.filter(x => x.author === mine && !x.remoteId)) await this.publish(r);
+      const [bocal, tickets] = await Promise.all([
+        sbRpc('lire_bocal', { p_token: db.token, p_limit: 60 }),
+        sbRpc('lire_mes_tickets', { p_token: db.token })
+      ]);
+      // nos mots doux déjà envoyés sur les tickets des autres : on les garde
+      const keptReplies = {};
+      db.receipts.forEach(x => { if (x.author !== mine && x.remoteId) keptReplies[x.remoteId] = x.replies || []; });
+      db.receipts = db.receipts.filter(x => x.author === mine);
+      (bocal || []).forEach(t => db.receipts.push({
+        id: 'b-' + t.id, remoteId: t.id, no: this.num(t.id), handle: t.handle, author: 'remote', status: 'published', risk: 'none',
+        at: this.when(t.created_at), lines: t.lines || [], note: t.note || '', replies: keptReplies[t.id] || []
+      }));
+      // nos propres tickets : on met à jour leur statut et les mots doux reçus
+      (tickets || []).forEach(t => {
+        let r = db.receipts.find(x => x.remoteId === t.id);
+        if (!r){
+          r = { id: 'o-' + t.id, remoteId: t.id, no: this.num(t.id), handle: t.handle, author: mine, risk: 'none',
+                at: this.when(t.created_at), lines: t.lines || [], note: t.note || '', replies: [] };
+          db.receipts.push(r);
+        }
+        r.status = t.status;
+        r.replies = (t.replies || []).map(p => ({ id: 'p-' + p.id, remoteId: p.id, handle: p.handle, author: 'remote', body: p.body, status: p.status, at: this.when(p.created_at) }));
+      });
+      Store.save();
+      const sig = JSON.stringify(db.receipts.map(x => [x.id, x.status, (x.replies || []).length]));
+      if (sig !== this.last){ this.last = sig; render(); }
+    } catch(e) { /* hors connexion : on garde ce qu'on a déjà */ }
+    finally { this.busy = false; }
+  },
+  start(){ this.pull(); setInterval(() => this.pull(), 60000); }
+};
+REMOTE.start();
 </script>
 </body>
 </html>

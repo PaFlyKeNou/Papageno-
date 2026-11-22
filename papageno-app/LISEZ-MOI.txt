@@ -11,6 +11,11 @@ Une fois installée, Papageno :
 - reste ouverte même sans réseau (la boutique, le bocal, la radio « Musique douce » et « La mer »,
   les voix d'accueil et d'au revoir). La « Playlist 1 » se joue avec une connexion internet.
 
+Nouveautés de la version 48 :
+- Le bocal est partagé : les tickets imprimés partent dans la base commune, et le bocal affiche ceux des autres visiteurs.
+- Les mots doux envoyés passent aussi par la base commune. Ceux qui contiennent un risque restent cachés jusqu'à relecture.
+- Si le réseau est coupé à l'impression, le ticket reste sur l'appareil et part au prochain passage.
+
 Nouveautés de la version 47 :
 - Plus aucune démo : le bocal de départ est vide, les mots doux fabriqués par le site sont retirés, et le mot « démo » n'apparaît plus dans l'interface (le titre « Démo graphia » de la playlist reste tel quel).
 - Pour l'instant, les tickets restent sur chaque appareil : le bocal partagé entre visiteurs arrive dans une prochaine version.
