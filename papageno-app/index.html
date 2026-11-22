@@ -2786,31 +2786,7 @@ function me(){
   return db.me;
 }
 function seed(){
-  const now = Date.now();
-  return {
-    ticketNo: 128,
-    receipts: [
-      { id: uid(), no: 127, handle: 'Client n°4821', author: 'seed', status: 'published', risk: 'none', at: now - 3600e3,
-        lines: [ {q:1,l:'sourire forcé à la réunion',p:200}, {q:3,l:'« pas de souci »',p:150}, {q:1,l:'REMISE · le chat sur mes genoux',p:-250}, {q:1,l:'BESOIN · des câlins en vrac',p:0} ],
-        note: 'Journée longue. Mais le chat.', replies: [ {id: uid(), handle:'Client n°1180', body:"Le chat a fait du bon boulot. Je t'ai lu·e.", status:'published', at: now - 3000e3} ] },
-      { id: uid(), no: 126, handle: 'Client n°0932', author: 'seed', status: 'published', risk: 'none', at: now - 7200e3,
-        lines: [ {q:1,l:'nuit trop courte',p:650}, {q:1,l:'trajet seul·e',p:300}, {q:2,l:"message que je n'ai pas osé envoyer",p:400} ],
-        note: '', replies: [] },
-      ...[
-        [['réveil difficile',300],['REMISE · soleil sur le balcon',-150]],
-        [["réunion où je n'ai rien dit",450],['café froid',120]],
-        [["« tu as l'air fatigué·e »",250],['dîner seul·e',300],['REMISE · une série qui fait rire',-200]],
-        [["file d'attente à la CAF",500],['REMISE · la guichetière gentille',-300]],
-        [['appel que je redoutais',700]],
-        [['dimanche trop long',600],['REMISE · une balade',-250]],
-        [['excuses pour rien',240],['sourire poli',150]],
-        [['bus raté',200],['pluie',100],["REMISE · un inconnu m'a tenu la porte",-100]],
-        [["notification qui n'arrive pas",350]],
-        [['devoir rendu en retard',400],['REMISE · ma prof a compris',-400]]
-      ].map((ls, i) => ({ id: uid(), no: 125 - i, handle: 'Client n°' + (2000 + i*713 % 7000), author: 'seed', status: 'published', risk: 'none',
-          at: now - (3 + i) * 3600e3, lines: ls.map(([l,p]) => ({ q: 1, l, p })), note: '', replies: [] }))
-    ]
-  };
+  return { ticketNo: 1, receipts: [] };
 }
 
 // ---------- Détection automatique (lexique FR, démo) ----------
@@ -3808,7 +3784,6 @@ $('#composer').onsubmit = async e => {
     status: a.risk === 'none' ? 'published' : 'held', risk: a.risk, flags: a, at: Date.now(), lines, note, replies: [] };
   db.receipts.unshift(r); Store.save(); ui.session.printed++;
   PM.ensure();   // le premier ticket crée le code porte-monnaie
-  demoChange(r, 25000);   // démo : quelqu'un rend la monnaie quelques secondes plus tard
 
   if (r.status === 'published') ui.fresh = r.id;
   $('#print').disabled = true;
@@ -4522,7 +4497,7 @@ function renderWallet(own){
     read.innerHTML = received.length
       ? `<div class="mine-hint" style="border-style:solid"><h3>La monnaie qu'on t'a rendue</h3><div class="coin-list">${received.map(({ p, r }) =>
           `<div class="coin-card"><span class="coin" aria-hidden="true">€</span><div><div class="who">${esc(p.handle)} · ${when(p.at)} · sur ton ticket N°${String(r.no).padStart(6,'0')}</div>${esc(p.body)}</div></div>`).join('')}</div>
-          ${received.some(({ p }) => p.demo) ? `<p class="pending">Démo : ces mots sont des exemples. En vrai, ce sont d'autres visiteurs qui te rendent la monnaie, après relecture.</p>` : ''}</div>`
+          </div>`
       : `<div class="mine-hint"><h3>Pas encore de monnaie</h3><p>Quand quelqu'un lira l'un de tes tickets et te laissera un mot, il tombera dans cette bourse.</p></div>`;
   } else if (ui.opened){
     const r = own.find(x => x.id === ui.opened);
@@ -5519,34 +5494,6 @@ function annonce(){
 }
 setTimeout(function loop(){ annonce(); setTimeout(loop, 45000); }, 12000);
 
-// ---------- Démo : de la monnaie rendue par d'autres visiteurs ----------
-// Dans le prototype, personne d'autre ne lit tes tickets : on simule un mot doux pour que la bourse ait de quoi se lire.
-const DEMO_CHANGE = [
-  "Je t'ai lu·e. Ce que tu portes compte, et tu n'es pas seul·e.",
-  "Merci de l'avoir posé ici. Sois doux·ce avec toi aujourd'hui, tu le mérites.",
-  "Ton ticket m'a touché·e. Courage pour la suite, vraiment.",
-  "Je te rends un peu de monnaie : un café chaud, une vraie pause, et la fierté d'avoir écrit.",
-  "Les journées comme ça finissent toujours par passer. Je pense à toi ce soir."
-];
-function demoChange(r, delay){
-  if (!r || r.status !== 'published' || (r.replies || []).some(p => p.demo)) return;
-  const add = () => {
-    const db = Store.load(), t = db.receipts.find(x => x.id === r.id);
-    if (!t || t.status !== 'published' || t.replies.some(p => p.demo)) return;
-    const h = hash(t.id);
-    t.replies.push({ id: uid(), handle: 'Client n°' + (1000 + h % 9000), author: 'demo', demo: true,
-      body: DEMO_CHANGE[h % DEMO_CHANGE.length], status: 'published', at: delay ? Date.now() : Math.min(Date.now(), t.at + 20 * 60e3) });
-    Store.save(); render();
-    if (delay){
-      clink(5); Joy.rain(14); Motion.markNew();
-      toast('De la monnaie vient de tomber dans ton porte-monnaie.', { label:'Ouvrir la bourse', fn: () => {
-        ui.purse = true; ui.opened = null; render();
-        setAisle('mine', true).then(() => { if (ui.purse && ui.aisle === 'mine') Joy.purseOpen(); });
-      } });
-    }
-  };
-  delay ? setTimeout(add, delay) : add();
-}
 
 // =====================================================================
 //  MOTION DESIGN : portes automatiques, voyage entre les rayons, lumières, joie, accueil
@@ -6273,8 +6220,6 @@ renderMeet(); renderMerci();
 $('#poster-barcode').style.background = barcodeCSS('le-ticket');
 resetComposer();
 render();
-// les tickets déjà dans le bocal reçoivent leur monnaie de démo
-Store.load().receipts.filter(r => r.author === me().id && r.status === 'published' && !r.replies.length).forEach(r => demoChange(r, 0));
 </script>
 </body>
 </html>
