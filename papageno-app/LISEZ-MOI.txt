@@ -11,6 +11,9 @@ Une fois installée, Papageno :
 - reste ouverte même sans réseau (la boutique, le bocal, la radio « Musique douce » et « La mer »,
   les voix d'accueil et d'au revoir). La « Playlist 1 » se joue avec une connexion internet.
 
+Nouveautés de la version 41 :
+- Sortie : l'encadré blanc (pensée) remonte un peu plus, et le texte de la citation est en italique.
+
 Nouveautés de la version 40 :
 - Sortie : les textes de la pensée et de la citation sont centrés.
 

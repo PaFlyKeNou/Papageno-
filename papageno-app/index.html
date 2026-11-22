@@ -731,7 +731,8 @@ body.care-in-basket .care-bar{display:none}
 .quote{margin:0;background:var(--lilac);border-radius:18px;padding:24px 26px 24px;position:relative}
 /* le guillemet d'ouverture est collé au début du texte, de la même taille que le fermant */
 .quote blockquote::before{content:"«\202F";font-family:var(--display);font-weight:400;font-size:clamp(28px,3.2vw,34px);line-height:0;vertical-align:-.06em;color:var(--tomato)}
-.quote blockquote{margin:0;font-size:clamp(19px,2.1vw,23px);line-height:1.4;font-weight:600;text-align:center}
+.quote blockquote{margin:0;font-size:clamp(19px,2.1vw,23px);line-height:1.4;font-weight:600;text-align:center;font-style:italic}
+.thoughts .pensee{margin-top:-30px}   /* l'encadré blanc remonte un peu plus */
 /* le guillemet fermant, assorti au grand « d'ouverture (espace fine insécable, à la française) */
 .quote blockquote::after{content:"\202F»";font-family:var(--display);font-weight:400;font-size:clamp(28px,3.2vw,34px);line-height:0;vertical-align:-.06em;color:var(--tomato)}
 .quote figcaption{margin-top:10px;font-family:var(--mono);font-size:14px;text-align:center}
