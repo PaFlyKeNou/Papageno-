@@ -705,16 +705,19 @@ body.care-in-basket .care-bar{display:none}
 .exit-lead em{font-style:normal;font-weight:700;color:var(--tomato-deep);margin-right:2px}
 .exit-grid{display:grid;grid-template-columns:minmax(0,380px) minmax(0,1fr);gap:40px;align-items:center;width:100%;text-align:left}
 @media (max-width:860px){.exit-grid{grid-template-columns:minmax(0,1fr)}}
-.bag{position:relative;width:min(340px,100%);margin:84px auto 0;padding-top:170px} /* anses et ticket loin du texte */
+.bag{position:relative;width:min(340px,100%);margin:84px auto 0;padding-top:170px;transform-origin:50% 0}
+@media (prefers-reduced-motion:no-preference){html:not(.calm) .bag{animation:bagSway 5s ease-in-out 1.6s infinite}}
+@keyframes bagSway{0%,100%{transform:rotate(-1.2deg)}50%{transform:rotate(1.2deg)}}
+.pensee,.quote{transition:transform .25s cubic-bezier(.3,1.4,.5,1)}
+.pensee:hover,.quote:hover{transform:translateY(-4px)} /* anses et ticket loin du texte */
 .bag .ticket{position:absolute;left:31%;top:0;width:62%;translate:-50% 0;font-size:12.5px;z-index:1;height:200px}
 .bag .ticket .t-meta{border-bottom:0;margin-bottom:0}   /* le ticket s'arrête net : plus de ligne coupée par le bord du sac */
-.bag-body{position:relative;z-index:2;height:360px;background:#d9a46d;border-radius:4px 4px 10px 10px;
+.bag-body{position:relative;z-index:2;height:300px;background:#d9a46d;border-radius:4px 4px 10px 10px;
   background-image:linear-gradient(90deg,rgba(0,0,0,.06) 0 12%,transparent 12% 88%,rgba(0,0,0,.06) 88%),repeating-linear-gradient(0deg,rgba(255,255,255,.05) 0 2px,transparent 2px 6px);
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:#5a3412;box-shadow:0 18px 0 rgba(28,31,92,.12)}
 .bag-body::before{content:"";position:absolute;left:0;right:0;top:0;height:22px;background:#c58f57;
   -webkit-mask:conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) bottom/16px 100% repeat-x;mask:conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) bottom/16px 100% repeat-x}
 .bag-body b{font-family:var(--display);font-weight:400;font-size:64px;line-height:1;color:var(--ink)}
-.bag-body .tortue{width:200px;height:220px;margin:0}   /* le logo du sac : grand, il se voit de loin */
 .bag-body small{font-weight:700;letter-spacing:.14em;font-size:12px;text-transform:uppercase}
 .handle{position:absolute;top:-56px;width:70px;height:80px;border:7px solid #b47a42;border-bottom:0;border-radius:40px 40px 0 0;z-index:0}
 .handle.l{left:22%} .handle.r{right:22%}
@@ -2679,10 +2682,7 @@ body::before{content:"";position:fixed;left:0;right:0;top:0;height:env(safe-area
       <div class="bag">
         <span class="handle l" aria-hidden="true"></span><span class="handle r" aria-hidden="true"></span>
         <div id="exit-receipt"></div>
-        <div class="bag-body">
-          <svg class="tortue" viewBox="0 0 100 110" width="200" height="220" aria-hidden="true" focusable="false"><use href="#tortue"/></svg>
-          <b>Papageno</b>
-        </div>
+        <div class="bag-body"></div>
         <!-- l'émoticône violette, collée comme un autocollant sur le coin du sac : visible sur tous les écrans -->
         <span class="bag-sticker" id="bag-sticker" aria-hidden="true"></span>
       </div>
