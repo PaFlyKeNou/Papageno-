@@ -5014,6 +5014,9 @@ $('#meet-form').onsubmit = e => {
     acts: $$('#m-acts input:checked').map(i => i.value), idea: $('#m-idea').value.trim(), at: Date.now() };
   db.signup = s;
   Store.save(); renderMeet();
+  // la liste de l'organisatrice (Supabase) : seulement ce que la personne a rempli ; le lien Signal reste disponible même si l'envoi échoue
+  sbRpc('inscrire_rencontre', { p_name: s.name, p_contact: s.contact, p_city: s.city, p_acts: s.acts, p_idea: s.idea })
+    .catch(() => toast('Ta demande n\'a pas pu être envoyée à l\'organisatrice. Écris-lui dans Signal.'));
   // pas d'e-mail : le mot de la boutique ouvre tout de suite le lien du groupe Signal (la demande arrive dans Signal, où l'organisatrice valide chaque personne)
   m.className = 'msg';
   m.innerHTML = `Ta demande est enregistrée. Rejoins le groupe tout de suite&nbsp;:<p style="margin:12px 0 0"><a class="btn tomato" href="${SIGNAL.link}" target="_blank" rel="noopener">Rejoindre le groupe Signal</a></p>`;
