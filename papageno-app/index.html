@@ -728,8 +728,9 @@ body.care-in-basket .care-bar{display:none}
 .pensee{background:var(--paper);border:3px solid var(--ink);border-radius:18px;padding:22px 24px;box-shadow:6px 6px 0 var(--ink)}
 .pensee .k{display:inline-block;background:var(--mint);border-radius:999px;padding:2px 10px;font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase}
 .pensee p{margin:10px 0 0;font-family:var(--display);font-size:clamp(22px,2.6vw,30px);line-height:1.15}
-.quote{margin:0;background:var(--lilac);border-radius:18px;padding:58px 26px 24px;position:relative}
-.quote::before{content:"«";position:absolute;left:14px;top:-4px;font-family:var(--display);font-size:clamp(28px,3.2vw,34px);line-height:1;color:var(--tomato)}
+.quote{margin:0;background:var(--lilac);border-radius:18px;padding:24px 26px 24px;position:relative}
+/* le guillemet d'ouverture est collé au début du texte, de la même taille que le fermant */
+.quote blockquote::before{content:"«\202F";font-family:var(--display);font-weight:400;font-size:clamp(28px,3.2vw,34px);line-height:0;vertical-align:-.06em;color:var(--tomato)}
 .quote blockquote{margin:0;font-size:clamp(19px,2.1vw,23px);line-height:1.4;font-weight:600}
 /* le guillemet fermant, assorti au grand « d'ouverture (espace fine insécable, à la française) */
 .quote blockquote::after{content:"\202F»";font-family:var(--display);font-weight:400;font-size:clamp(28px,3.2vw,34px);line-height:0;vertical-align:-.06em;color:var(--tomato)}

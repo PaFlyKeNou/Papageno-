@@ -11,6 +11,9 @@ Une fois installée, Papageno :
 - reste ouverte même sans réseau (la boutique, le bocal, la radio « Musique douce » et « La mer »,
   les voix d'accueil et d'au revoir). La « Playlist 1 » se joue avec une connexion internet.
 
+Nouveautés de la version 38 :
+- Sortie : le guillemet d'ouverture de la citation est collé au début du texte, de la même taille que le guillemet de fin.
+
 Nouveautés de la version 37 :
 - Sortie : le sac, le ticket de sortie et l'autocollant violet sont retirés. La pensée et la citation passent au centre de la page.
 
