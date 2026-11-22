@@ -4304,7 +4304,7 @@ const PM_ABC = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';   // ni 0/O, ni 1/I/L : imposs
 const normCode = s => String(s || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
 const fmtCode = s => normCode(s).slice(0, 12).replace(/(.{4})(?=.)/g, '$1-');
 // Base partagée (Supabase, Paris). La clé « publishable » est publique : elle peut figurer ici.
-const SB = { url: 'https://bjxdcdtynrnvqyttewxu.supabase.co', key: 'sb_publishable_ulm5pKDTYF-EVCi1KbSqWw_HuoK4VVc' };
+const SB = { url: 'https://tlbfmpamxlzryasvjvtu.supabase.co', key: 'sb_publishable_WFy8bjk3WVC3w1PqCSPfBw_pW5pvnqh' };
 async function sbRpc(fn, body){
   const r = await fetch(`${SB.url}/rest/v1/rpc/${fn}`, { method: 'POST',
     headers: { apikey: SB.key, Authorization: 'Bearer ' + SB.key, 'Content-Type': 'application/json' },
