@@ -4550,6 +4550,7 @@ function bindActions(){
     const r = Store.load().receipts.find(x => x.id === b.dataset.id);
     r.reports = (r.reports || 0) + 1;
     r.status = 'held'; Store.save(); render();
+    if (r.remoteId) sbRpc('signaler_ticket', { p_ticket_id: r.remoteId, p_token: Store.load().token }).catch(() => {});   // le signalement part dans la liste de relecture
     toast("Merci. Ce ticket est mis de côté le temps qu'une personne le relise.");
   });
 }
