@@ -899,6 +899,7 @@ body.care-in-basket .care-bar{display:none}
 .scratch .foil{position:absolute;inset:0;display:grid;place-items:center;font-weight:700;letter-spacing:.12em;font-size:13px;color:#4b4f6a;
   background:repeating-linear-gradient(45deg,#c8cbd8 0 6px,#d9dbe6 6px 12px);transition:clip-path .7s cubic-bezier(.6,0,.2,1)}
 .scratch[aria-pressed="true"] .foil{clip-path:inset(0 0 0 100%)}
+.scratch:not([aria-pressed="true"]) .zone .ans{visibility:hidden}   /* la réponse reste cachée tant que le voile n'est pas gratté */
 .scratch .scratch-cv{position:absolute;inset:0;width:100%;height:100%;border-radius:12px;touch-action:none;cursor:cell}
 .scratch .scratch-cv[hidden]{display:none}
 .scratch-row{margin-bottom:16px}
@@ -4917,6 +4918,8 @@ const Scratch = {
     this.stale = false;
     row.innerHTML = this.draw().map(c => `<button class="scratch" type="button" aria-pressed="false"><span class="q">${esc(c.q.replace(/ \?$/, ' ?'))}</span>
       <span class="zone"><span class="ans"><b>${esc(c.b)}</b><span>${esc(c.t)}</span><small>${esc(c.s)}</small></span></span></button>`).join('');
+    // une fois la carte affichée, on pose le voile (la réponse reste cachée tant qu'il n'est pas gratté)
+    requestAnimationFrame(() => $$('#scratch-row .scratch-cv').forEach(cv => { if (!cv.dataset.painted) this.foil(cv); }));
     $$('#scratch-row .scratch').forEach((b, i) => {
       const cv = document.createElement('canvas');   // le voile à gratter : au curseur sur ordi, au doigt sur téléphone
       cv.className = 'scratch-cv'; cv.setAttribute('aria-hidden', 'true'); b.querySelector('.zone').appendChild(cv);

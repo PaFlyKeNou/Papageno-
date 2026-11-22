@@ -11,6 +11,9 @@ Une fois installée, Papageno :
 - reste ouverte même sans réseau (la boutique, le bocal, la radio « Musique douce » et « La mer »,
   les voix d'accueil et d'au revoir). La « Playlist 1 » se joue avec une connexion internet.
 
+Nouveautés de la version 34 :
+- Chiffres : les réponses des cartes à gratter restent cachées tant que le voile n'est pas gratté (avant, certaines apparaissaient déjà).
+
 Nouveautés de la version 33 :
 - Sortie : le logo sur le sac est beaucoup plus grand ; les courses qui dépassent du sac et les émoticônes flottantes autour des textes sont retirées.
 - Les encadrés et cadres (pensée, citation, ticket, bandeaux, badges) sont droits, sans inclinaison.
