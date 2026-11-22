@@ -135,7 +135,7 @@ h1,h2,h3{text-wrap:balance}
 .push{position:absolute;left:50%;bottom:28px;translate:-50% 0;z-index:2;background:var(--tomato-deep);color:var(--paper);font-weight:700;letter-spacing:.06em;
   padding:12px 20px;border-radius:999px;white-space:nowrap;box-shadow:0 6px 0 rgba(28,31,92,.25)}
 .mat{width:100%;max-width:300px;height:18px;background:var(--tomato);border-radius:0 0 6px 6px}
-.poster{margin:16px auto 0;width:calc(100% - 28px);transform:rotate(1.5deg)}
+.poster{margin:16px auto 0;width:calc(100% - 28px)}
 .floor{height:180px;margin:0 -200px;transform:perspective(500px) rotateX(58deg);transform-origin:50% 0;opacity:.95}
 .promise{max-width:1080px;margin:-110px auto 0;padding:0 16px;position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:18px}
 .promise .tags{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
@@ -220,7 +220,7 @@ h1,h2,h3{text-wrap:balance}
 .stamp{position:absolute;right:16px;bottom:22px;rotate:-12deg;border:4px double var(--tomato-deep);color:var(--tomato-deep);font-family:var(--display);font-size:32px;line-height:1;
   padding:6px 14px 2px;opacity:0;mix-blend-mode:multiply;pointer-events:none}
 .ticket.has-stamp{padding-bottom:86px}   /* la place du tampon, en bas à droite : il ne cache aucune ligne */
-.status-stamp{display:inline-block;margin-top:10px;border:2px solid currentColor;border-radius:4px;padding:1px 8px;font-weight:700;font-size:12px;rotate:-3deg}
+.status-stamp{display:inline-block;margin-top:10px;border:2px solid currentColor;border-radius:4px;padding:1px 8px;font-weight:700;font-size:12px}
 .status-stamp.held{color:var(--ink-soft)} .status-stamp.in{color:var(--promo-ink)}
 
 /* ================= SCÈNE 2 : la boutique ================= */
@@ -257,14 +257,14 @@ h1,h2,h3{text-wrap:balance}
   color:var(--paper);padding-top:0;overflow-x:clip}
 #r-exclusif .rayon-title{color:var(--paper);margin-bottom:12px}
 #r-exclusif .rayon-lead{color:#e3e5ff}
-.ex-marquee{overflow:hidden;background:var(--butter);color:var(--ink);border-block:3px solid var(--ink);rotate:-1deg;margin:22px -12px 30px;white-space:nowrap}
+.ex-marquee{overflow:hidden;background:var(--butter);color:var(--ink);border-block:3px solid var(--ink);margin:22px -12px 30px;white-space:nowrap}
 .ex-track{display:flex;width:max-content;animation:marquee 40s linear infinite}
 .ex-track span{font-family:var(--display);font-size:20px;line-height:1;padding:10px 0;text-transform:uppercase;letter-spacing:.02em}
 @keyframes marquee{to{transform:translateX(-50%)}}
 .ex-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px 28px;flex-wrap:wrap}
 .ex-head > div:first-child{flex:1 1 420px}
 .ex-kicker{margin:0 0 8px;font-weight:700;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#f4c430}
-.ex-neon{font-family:var(--neon);font-size:clamp(40px,6.5vw,80px);line-height:1;color:#fff;padding:10px 26px 12px;border:3px solid rgba(255,255,255,.9);border-radius:18px;margin:0 8px 30px;rotate:-3deg;
+.ex-neon{font-family:var(--neon);font-size:clamp(40px,6.5vw,80px);line-height:1;color:#fff;padding:10px 26px 12px;border:3px solid rgba(255,255,255,.9);border-radius:18px;margin:0 8px 30px;
   text-shadow:0 0 2px #fff,0 0 10px #ff5fa8,0 0 24px #ff5fa8,0 0 46px #ff5fa8;box-shadow:0 0 12px #ff5fa8,0 0 34px rgba(255,95,168,.6),inset 0 0 14px rgba(255,95,168,.5);animation:flick 7s infinite}
 .ex-grid{display:grid;grid-template-columns:minmax(0,1fr) 270px;gap:24px;align-items:start}
 .gondola{display:grid;grid-template-columns:minmax(0,1fr);gap:22px;min-width:0}
@@ -706,14 +706,15 @@ body.care-in-basket .care-bar{display:none}
 .exit-grid{display:grid;grid-template-columns:minmax(0,380px) minmax(0,1fr);gap:40px;align-items:center;width:100%;text-align:left}
 @media (max-width:860px){.exit-grid{grid-template-columns:minmax(0,1fr)}}
 .bag{position:relative;width:min(340px,100%);margin:84px auto 0;padding-top:170px} /* anses et ticket loin du texte */
-.bag .ticket{position:absolute;left:31%;top:0;width:62%;translate:-50% 0;rotate:-4deg;font-size:12.5px;z-index:1;height:200px}
+.bag .ticket{position:absolute;left:31%;top:0;width:62%;translate:-50% 0;font-size:12.5px;z-index:1;height:200px}
 .bag .ticket .t-meta{border-bottom:0;margin-bottom:0}   /* le ticket s'arrête net : plus de ligne coupée par le bord du sac */
-.bag-body{position:relative;z-index:2;height:300px;background:#d9a46d;border-radius:4px 4px 10px 10px;
+.bag-body{position:relative;z-index:2;height:360px;background:#d9a46d;border-radius:4px 4px 10px 10px;
   background-image:linear-gradient(90deg,rgba(0,0,0,.06) 0 12%,transparent 12% 88%,rgba(0,0,0,.06) 88%),repeating-linear-gradient(0deg,rgba(255,255,255,.05) 0 2px,transparent 2px 6px);
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:#5a3412;box-shadow:0 18px 0 rgba(28,31,92,.12)}
 .bag-body::before{content:"";position:absolute;left:0;right:0;top:0;height:22px;background:#c58f57;
   -webkit-mask:conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) bottom/16px 100% repeat-x;mask:conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) bottom/16px 100% repeat-x}
-.bag-body b{font-family:var(--display);font-weight:400;font-size:40px;line-height:1;color:var(--ink)}
+.bag-body b{font-family:var(--display);font-weight:400;font-size:64px;line-height:1;color:var(--ink)}
+.bag-body .tortue{width:200px;height:220px;margin:0}   /* le logo du sac : grand, il se voit de loin */
 .bag-body small{font-weight:700;letter-spacing:.14em;font-size:12px;text-transform:uppercase}
 .handle{position:absolute;top:-56px;width:70px;height:80px;border:7px solid #b47a42;border-bottom:0;border-radius:40px 40px 0 0;z-index:0}
 .handle.l{left:22%} .handle.r{right:22%}
@@ -722,10 +723,10 @@ body.care-in-basket .care-bar{display:none}
 .bag-goods.r{right:-12px;top:100px}
 .bag-goods.r2{right:-14px;top:146px}
 .thoughts{display:flex;flex-direction:column;gap:18px}
-.pensee{background:var(--paper);border:3px solid var(--ink);border-radius:18px;padding:22px 24px;box-shadow:6px 6px 0 var(--ink);rotate:-1deg}
+.pensee{background:var(--paper);border:3px solid var(--ink);border-radius:18px;padding:22px 24px;box-shadow:6px 6px 0 var(--ink)}
 .pensee .k{display:inline-block;background:var(--mint);border-radius:999px;padding:2px 10px;font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase}
 .pensee p{margin:10px 0 0;font-family:var(--display);font-size:clamp(22px,2.6vw,30px);line-height:1.15}
-.quote{margin:0;background:var(--lilac);border-radius:18px;padding:58px 26px 24px;position:relative;rotate:.8deg}
+.quote{margin:0;background:var(--lilac);border-radius:18px;padding:58px 26px 24px;position:relative}
 .quote::before{content:"«";position:absolute;left:14px;top:-4px;font-family:var(--display);font-size:clamp(28px,3.2vw,34px);line-height:1;color:var(--tomato)}
 .quote blockquote{margin:0;font-size:clamp(19px,2.1vw,23px);line-height:1.4;font-weight:600}
 /* le guillemet fermant, assorti au grand « d'ouverture (espace fine insécable, à la française) */
@@ -985,7 +986,7 @@ body.care-in-basket .care-bar{display:none}
 /* ================= Pied de page commun : le comptoir prioritaire ================= */
 .help-foot{background:var(--ink);color:var(--paper);padding:44px 0 calc(110px + env(safe-area-inset-bottom,0px))}
 .help-foot .inner{max-width:1240px;margin:0 auto;padding:0 16px}
-.help-foot .badge{display:inline-block;border:2px solid var(--butter);color:var(--butter);border-radius:6px;padding:2px 10px;font-weight:700;font-size:12px;letter-spacing:.12em;text-transform:uppercase;rotate:-2deg}
+.help-foot .badge{display:inline-block;border:2px solid var(--butter);color:var(--butter);border-radius:6px;padding:2px 10px;font-weight:700;font-size:12px;letter-spacing:.12em;text-transform:uppercase}
 .help-foot h2{margin:12px 0 8px;font-family:var(--display);font-weight:400;font-size:clamp(28px,4vw,42px);line-height:1.05}
 .help-foot .lead{margin:0 0 18px;max-width:62ch;color:#d6d7f0}
 .lines{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(330px,100%),1fr));gap:0 40px}
@@ -1107,7 +1108,7 @@ body.care-in-basket .care-bar{display:none}
 .neon.flicker{animation:flick 6s infinite}
 @keyframes flick{0%,92%,100%{opacity:1}93%{opacity:.35}94%{opacity:1}96%{opacity:.5}97%{opacity:1}}
 .st-tag{position:absolute;left:50%;top:118px;translate:-50% 0;width:max-content;max-width:86%;background:var(--paper);border:2px solid var(--ink);border-radius:6px;padding:4px 10px;
-  font-weight:600;font-size:13.5px;text-align:center;rotate:-1.5deg;z-index:2}
+  font-weight:600;font-size:13.5px;text-align:center;z-index:2}
 .stand{position:absolute;left:50%;bottom:var(--floor-h);translate:-50% 0;z-index:1;display:flex;align-items:flex-end;justify-content:center}
 .floor-btn{position:absolute;left:50%;bottom:calc(var(--floor-h) / 2 - 24px);translate:-50% 0;z-index:3;display:inline-flex;align-items:center;gap:8px;white-space:nowrap;
   background:var(--butter);color:var(--ink);border:3px solid var(--ink);border-radius:999px;min-height:48px;padding:0 20px;font-family:var(--display);font-size:18px;cursor:pointer;box-shadow:0 5px 0 var(--ink);transition:transform .15s}
@@ -1478,7 +1479,7 @@ html.calm *,html.calm *::before,html.calm *::after{animation:none!important;tran
 @keyframes golddust{from{background-position:0 150px}to{background-position:0 0}}
 .w-ticket.fresh .ticket{box-shadow:0 0 0 4px var(--butter),0 0 30px rgba(255,214,90,.95)}
 .w-new{position:absolute;left:50%;top:-14px;translate:-50% 0;z-index:2;background:var(--tomato-deep);color:#fff;border:2.5px solid var(--ink);border-radius:999px;
-  font-weight:700;font-size:11px;letter-spacing:.12em;padding:3px 10px;white-space:nowrap;rotate:-4deg;box-shadow:0 3px 0 var(--ink)}
+  font-weight:700;font-size:11px;letter-spacing:.12em;padding:3px 10px;white-space:nowrap;box-shadow:0 3px 0 var(--ink)}
 
 /* — Service client ++ : l'hôtesse est en ligne, les promesses du comptoir — */
 .desk-av{position:relative}
@@ -2676,16 +2677,8 @@ body::before{content:"";position:fixed;left:0;right:0;top:0;height:env(safe-area
       <div class="bag">
         <span class="handle l" aria-hidden="true"></span><span class="handle r" aria-hidden="true"></span>
         <div id="exit-receipt"></div>
-        <!-- quelques courses qui dépassent du sac : carottes, salade, baguette (décor) -->
-        <div class="bag-goods r" aria-hidden="true">
-          <svg viewBox="0 0 60 100" width="50" height="84" style="rotate:14deg"><path d="M14 30 L46 30 L34 94 Q30 100 26 94 Z" fill="#f08a24" stroke="#1c1f5c" stroke-width="4" stroke-linejoin="round"/><path d="M22 30 C20 14 26 6 30 4 C34 6 40 14 38 30 Z" fill="#4caf50" stroke="#1c1f5c" stroke-width="4" stroke-linejoin="round"/></svg>
-          <svg viewBox="0 0 90 70" width="72" height="56"><path d="M8 50 C4 26 24 10 45 14 C66 10 86 26 82 50 C70 62 20 62 8 50 Z" fill="#7bc96f" stroke="#1c1f5c" stroke-width="4" stroke-linejoin="round"/><path d="M30 46 Q45 28 60 46" fill="none" stroke="#1c1f5c" stroke-width="3" stroke-linecap="round"/></svg>
-        </div>
-        <div class="bag-goods r2" aria-hidden="true">
-          <svg viewBox="0 0 110 40" width="100" height="36" style="rotate:-16deg"><rect x="4" y="8" width="102" height="24" rx="12" fill="#e6b26a" stroke="#1c1f5c" stroke-width="4"/><path d="M26 14 L32 26 M50 12 L56 27 M74 14 L80 26" stroke="#b07a33" stroke-width="3" stroke-linecap="round"/></svg>
-        </div>
         <div class="bag-body">
-          <svg class="tortue" viewBox="0 0 100 110" width="130" height="143" aria-hidden="true" focusable="false"><use href="#tortue"/></svg>
+          <svg class="tortue" viewBox="0 0 100 110" width="200" height="220" aria-hidden="true" focusable="false"><use href="#tortue"/></svg>
           <b>Papageno</b>
         </div>
         <!-- l'émoticône violette, collée comme un autocollant sur le coin du sac : visible sur tous les écrans -->
@@ -3189,7 +3182,7 @@ function exitDecor(){
   // l'émoticône violette est un autocollant sur le coin du sac : elle suit le sac, donc reste visible partout
   $('#bag-sticker').innerHTML = smileySVG('#c9c3ff', 64);
   // les autres se posent dans les espaces libres (voir placeSmileys)
-  const spots = [[94,14,64,'#9fe6bf',10],[96,48,70,'#fffdf5',-8],[5,88,52,'#ffc49b',14],[95,84,58,'#b6dcff',-14]];
+  const spots = [];   // plus d'émoticônes flottantes autour des textes (demande de la version 33)
   let html = spots.map(([x,y,s,c,r], i) =>
     `<span class="smiley" data-x="${x}" data-y="${y}" data-s="${s}" style="rotate:${r}deg;animation-delay:${-i*0.8}s">${smileySVG(c, s)}</span>`).join('');
   if (!reduced){
