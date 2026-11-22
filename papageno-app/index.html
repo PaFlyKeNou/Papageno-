@@ -5013,13 +5013,18 @@ $('#m-leave').onclick = () => {
   const db = Store.load(), had = !!db.signup;
   // efface aussi la ligne dans la liste de l'organisatrice, grâce au jeton gardé sur cet appareil
   if (had && db.signup.token) sbRpc('desinscrire_rencontre', { p_token: db.signup.token }).catch(() => toast('Tes données locales sont effacées, mais la suppression sur le serveur a échoué. Écris à l\'organisatrice dans Signal.'));
+  // efface aussi les tickets et les mots doux de cette personne : sur le serveur, puis sur cet appareil
+  const mine = me().id;
+  sbRpc('effacer_mes_tickets', { p_token: authToken() }).then(() => REMOTE.pull()).catch(() => toast('Tes tickets n\'ont pas pu être effacés sur le serveur. Écris à l\'organisatrice dans Signal.'));
+  db.receipts = db.receipts.filter(x => x.author !== mine);
+  db.receipts.forEach(x => { x.replies = (x.replies || []).filter(p => p.author !== mine); });
   delete db.signup; Store.save();
   $('#meet-form').reset(); $('#m-minor-ok-l').hidden = true;  // l'idée proposée est effacée avec le reste
   const m = $('#m-msg'); m.hidden = false; m.className = 'msg';
   m.textContent = had
-    ? "C'est fait, tout de suite : tu es désinscrit·e et tes données d'inscription (prénom, contact, ville, activités, idée proposée) sont effacées. Tu ne recevras plus aucun message."
-    : "Aucune inscription n'est enregistrée à ton nom : il n'y a rien à effacer.";
-  toast(had ? 'Désinscription faite : tes données sont effacées.' : 'Aucune donnée d\'inscription à effacer.');
+    ? "C'est fait, tout de suite : tu es désinscrit·e, et tes données sont effacées (inscription, tickets et mots doux). Tu ne recevras plus aucun message."
+    : "Aucune inscription n'est enregistrée à ton nom. Tes tickets et tes mots doux ont été effacés.";
+  toast(had ? 'Désinscription faite : tes données sont effacées.' : 'Tes tickets et tes mots doux sont effacés.');
 };
 
 // ---------- Mercis & bons pour une visite ----------
