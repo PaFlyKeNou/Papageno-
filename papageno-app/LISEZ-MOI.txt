@@ -11,6 +11,9 @@ Une fois installée, Papageno :
 - reste ouverte même sans réseau (la boutique, le bocal, la radio « Musique douce » et « La mer »,
   les voix d'accueil et d'au revoir). La « Playlist 1 » se joue avec une connexion internet.
 
+Nouveautés de la version 44 :
+- Porte-monnaie sur téléphone : le code n'est plus gardé après la fermeture du site. Le téléphone le rappelle, et le visiteur le recopie dans ses notes. Sur ordinateur, le code reste enregistré.
+
 Nouveautés de la version 43 :
 - Porte-monnaie : le code et le QR code se connectent maintenant à la nouvelle base partagée (Supabase, Paris).
 

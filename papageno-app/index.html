@@ -2753,15 +2753,30 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
 
 // ---------- Stockage local ----------
 const KEY = 'le-ticket-mvp-v1';
+const PM_KEEP = 'papagenot-pm';
+const onPhone = () => ['ios', 'android'].includes(document.documentElement.dataset.os);
 const Store = {
   mem: null,
   load(){
     if (this.mem) return this.mem;
     try { this.mem = JSON.parse(localStorage.getItem(KEY)) } catch(e) {}
     if (!this.mem) this.mem = seed();
+    // sur téléphone, le code porte-monnaie ne vit que le temps de la session (le visiteur le garde dans ses notes)
+    if (onPhone()){ try { const k = JSON.parse(sessionStorage.getItem(PM_KEEP)); if (k && k.code) this.mem.me = k; } catch(e) {} }
     return this.mem;
   },
-  save(){ try { localStorage.setItem(KEY, JSON.stringify(this.mem)) } catch(e) {} },
+  save(){
+    const cur = this.mem;
+    try {
+      if (onPhone() && cur && cur.me && cur.me.code){
+        sessionStorage.setItem(PM_KEEP, JSON.stringify(cur.me));
+        localStorage.setItem(KEY, JSON.stringify({ ...cur, me: null }));
+        return;
+      }
+      if (onPhone()) sessionStorage.removeItem(PM_KEEP);
+      localStorage.setItem(KEY, JSON.stringify(cur));
+    } catch(e) {}
+  },
   reset(){ try { localStorage.removeItem(KEY) } catch(e) {} this.mem = null; }
 };
 function uid(){ return (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random()) }
@@ -4364,7 +4379,7 @@ const PM = {
           </div>
         </div>
         <div id="pm-confirm"></div>
-        <p class="pm-note">Garde-le comme un ticket de caisse&nbsp;: une capture d'écran ou un papier suffit. Ne le donne à personne, pas même à quelqu'un qui dit travailler pour Papageno.</p>`;
+        <p class="pm-note">Garde-le comme un ticket de caisse&nbsp;: une capture d'écran ou un papier suffit. Ne le donne à personne, pas même à quelqu'un qui dit travailler pour Papageno.</p>${onPhone() ? `<p class="pm-note"><b>Ce téléphone oublie ton code quand tu fermes le site.</b> Copie-le dans tes notes&nbsp;: c'est lui qui rouvre ton porte-monnaie.</p>` : ''}`;
       $('#pm-copy').onclick = () => this.copy();
       $('#pm-out').onclick = () => this.askOut();
     } else {
