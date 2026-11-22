@@ -11,6 +11,9 @@ Une fois installée, Papageno :
 - reste ouverte même sans réseau (la boutique, le bocal, la radio « Musique douce » et « La mer »,
   les voix d'accueil et d'au revoir). La « Playlist 1 » se joue avec une connexion internet.
 
+Nouveautés de la version 32 :
+- Façade : « Notre histoire » est centré sur la page (le titre au centre, le texte en colonne centrée).
+
 Nouveautés de la version 31 :
 - Accueil : la flèche du bouton « Entrer dans la boutique » est retirée.
 

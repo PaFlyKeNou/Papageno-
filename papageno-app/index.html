@@ -973,8 +973,9 @@ body.care-in-basket .care-bar{display:none}
 .bon .btn:hover{background:#f2f2f2}
 
 /* ================= Façade : notre histoire ================= */
-.story{max-width:1080px;margin:56px auto 0;padding:0 16px;display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.3fr);gap:36px;align-items:start}
-@media (max-width:860px){.story{grid-template-columns:minmax(0,1fr)}}
+.story{max-width:1080px;margin:56px auto 0;padding:0 16px;display:grid;grid-template-columns:minmax(0,1fr);justify-items:center;gap:28px;align-items:start}
+.story > div:first-child{text-align:center}
+.story .letter{width:100%;max-width:760px}
 .story h2{margin:0 0 10px;font-family:var(--display);font-weight:400;font-size:clamp(30px,4vw,44px);line-height:1.05}
 .letter{background:var(--paper);border:3px solid var(--ink);border-radius:18px;padding:28px clamp(20px,4vw,36px);font-size:17px;line-height:1.6;box-shadow:6px 6px 0 var(--ink)}
 .letter p{margin:0 0 1em}
