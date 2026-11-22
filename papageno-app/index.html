@@ -2513,7 +2513,8 @@ body::before{content:"";position:fixed;left:0;right:0;top:0;height:env(safe-area
             <h3>Je rejoins le groupe</h3>
             <label class="fld" for="m-name">Prénom ou pseudo<input id="m-name" maxlength="40" autocomplete="given-name"></label>
             <label class="fld" for="m-contact">Comment te prévenir&nbsp;? (facultatif) Pseudo Signal ou e-mail<input id="m-contact" maxlength="80" inputmode="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="@ton_pseudo ou toi@exemple.fr" aria-describedby="m-contact-help"></label>
-            <p class="note" id="m-contact-help" style="margin-top:-6px">Pas de numéro de portable, jamais. Un pseudo suffit, ou rien du tout&nbsp;: le lien du groupe Signal se trouve sur le site, avec le mot de la boutique.</p>
+            <p class="note" id="m-contact-help" style="margin-top:-6px">Pas de numéro de portable, jamais. Un pseudo suffit, ou rien du tout.</p>
+            <label class="fld" for="m-word">Mot de la boutique (écrit sur ton ticket de caisse)<input id="m-word" maxlength="40" autocomplete="off" autocapitalize="characters" spellcheck="false"></label>
             <fieldset style="border:0;margin:0;padding:0"><legend class="fld" style="margin-bottom:6px">Ce qui me tente</legend>
               <div class="chips2" id="m-acts">
                 <label><input type="checkbox" value="Groupe de parole" checked><span>Groupe de parole</span></label>
@@ -4987,7 +4988,7 @@ $('#scratch-new').onclick = () => { Scratch.render(true); clink(2); };
 // ---------- Rencontres : inscription (démo locale) ----------
 function renderMeet(){
   const s = Store.load().signup;
-  if (s){ const m = $('#m-msg'); m.hidden = false; m.className = 'msg'; m.textContent = `Ta demande, ${s.name}, est enregistrée sur cet appareil. Si tu ne l'as pas encore envoyée par e-mail, renvoie le formulaire pour ouvrir ton application mail.`; }
+  if (s){ const m = $('#m-msg'); m.hidden = false; m.className = 'msg'; m.textContent = `Ta demande, ${s.name}, est enregistrée sur cet appareil. Renvoie le formulaire avec le mot de la boutique pour retrouver le lien du groupe.`; }
 }
 $('#m-minor').onchange = e => { $('#m-minor-ok-l').hidden = !e.target.checked; };
 $('#meet-form').onsubmit = e => {
@@ -5000,28 +5001,17 @@ $('#meet-form').onsubmit = e => {
   if (/^\+?\d[\d.\-]{5,}$/.test(c)){ m.textContent = 'Pas besoin de numéro de portable : indique plutôt un pseudo (ex. @ton_pseudo) ou une adresse e-mail, ou laisse vide.'; $('#m-contact').focus(); return; }
   if ($('#m-minor').checked && !$('#m-minor-ok').checked){ m.textContent = "Avant moins de 18 ans, il faut l'accord d'un parent et un adulte de confiance."; return; }
   if (!$('#m-ok').checked){ m.textContent = 'Coche la case de la charte pour t\'inscrire.'; return; }
+  if (normWord($('#m-word').value) !== SIGNAL.word){ m.textContent = "Ce mot n'est pas le bon. Il est écrit sur ton ticket de caisse, imprimé à la caisse."; $('#m-word').focus(); return; }
   const db = Store.load();
   const s = { name, contact: !c ? '' : isMail ? c : '@' + c.replace(/^@/, ''), city: $('#m-city').value.trim(),
     acts: $$('#m-acts input:checked').map(i => i.value), idea: $('#m-idea').value.trim(), at: Date.now() };
   db.signup = s;
   Store.save(); renderMeet();
-  // la demande part à l'organisatrice par e-mail : l'application mail s'ouvre avec le message déjà écrit, le visiteur valide lui-même
-  const minor = $('#m-minor').checked;
-  const body = [
-    `Prénom ou pseudo : ${s.name}`,
-    `Contact : ${s.contact || 'non précisé'}`,
-    `Ville ou région : ${s.city || 'non précisé'}`,
-    `Groupe : Signal (lien sur le site, avec le mot de la boutique)`,
-    `Ce qui me tente : ${s.acts.join(', ') || 'non précisé'}`,
-    s.idea ? `Activité proposée : ${s.idea}` : '',
-    `Moins de 18 ans : ${minor ? 'oui (accord parental et adulte accompagnant annoncés)' : 'non'}`
-  ].filter(Boolean).join('\n');
-  const href = `mailto:${MEET_MAIL}?subject=${encodeURIComponent('Rencontres Papageno : une demande')}&body=${encodeURIComponent(body)}`;
+  // pas d'e-mail : le mot de la boutique ouvre tout de suite le lien du groupe Signal (la demande arrive dans Signal, où l'organisatrice valide chaque personne)
   m.className = 'msg';
-  m.innerHTML = `Ta demande est prête. Il ne reste qu'à l'envoyer&nbsp;: ton application mail s'ouvre, appuie sur « Envoyer ».<p style="margin:12px 0 0"><a class="btn tomato" href="${href}">Envoyer ma demande par e-mail</a></p>`;
-  toast('Ta demande est prête à être envoyée.');
+  m.innerHTML = `Ta demande est enregistrée. Rejoins le groupe tout de suite&nbsp;:<p style="margin:12px 0 0"><a class="btn tomato" href="${SIGNAL.link}" target="_blank" rel="noopener">Rejoindre le groupe Signal</a></p>`;
+  toast('Ta demande est enregistrée : tu peux rejoindre le groupe.');
 };
-const MEET_MAIL = 'coucou_papagenohelpme@ik.me';
 // Désinscription : toujours disponible, effet immédiat (droit à l'effacement)
 $('#m-leave').onclick = () => {
   const db = Store.load(), had = !!db.signup;
