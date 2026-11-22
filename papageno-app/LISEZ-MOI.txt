@@ -11,6 +11,9 @@ Une fois installée, Papageno :
 - reste ouverte même sans réseau (la boutique, le bocal, la radio « Musique douce » et « La mer »,
   les voix d'accueil et d'au revoir). La « Playlist 1 » se joue avec une connexion internet.
 
+Nouveautés de la version 29 :
+- Chiffres : les cartes « Tu n'es pas le seul, pas la seule » se grattent vraiment : au curseur sur ordi, au doigt sur téléphone. Elles se révèlent quand la moitié du voile est partie. Le clavier (Entrée) les révèle toujours.
+
 Nouveautés de la version 28 :
 - Rencontres : le pseudo (contact facultatif) accepte tous les caractères. Seul un numéro de portable reste refusé.
 

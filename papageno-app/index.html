@@ -896,6 +896,8 @@ body.care-in-basket .care-bar{display:none}
 .scratch .foil{position:absolute;inset:0;display:grid;place-items:center;font-weight:700;letter-spacing:.12em;font-size:13px;color:#4b4f6a;
   background:repeating-linear-gradient(45deg,#c8cbd8 0 6px,#d9dbe6 6px 12px);transition:clip-path .7s cubic-bezier(.6,0,.2,1)}
 .scratch[aria-pressed="true"] .foil{clip-path:inset(0 0 0 100%)}
+.scratch .scratch-cv{position:absolute;inset:0;width:100%;height:100%;border-radius:12px;touch-action:none;cursor:cell}
+.scratch .scratch-cv[hidden]{display:none}
 .scratch-row{margin-bottom:16px}
 .scratch-more{display:flex;justify-content:center;margin:0 0 34px}
 .fig-group{margin-top:30px}
@@ -4919,12 +4921,67 @@ const Scratch = {
     const row = $('#scratch-row'); if (!row) return;
     this.stale = false;
     row.innerHTML = this.draw().map(c => `<button class="scratch" type="button" aria-pressed="false"><span class="q">${esc(c.q.replace(/ \?$/, ' ?'))}</span>
-      <span class="zone"><span class="ans"><b>${esc(c.b)}</b><span>${esc(c.t)}</span><small>${esc(c.s)}</small></span><span class="foil" aria-hidden="true">GRATTER ICI</span></span></button>`).join('');
+      <span class="zone"><span class="ans"><b>${esc(c.b)}</b><span>${esc(c.t)}</span><small>${esc(c.s)}</small></span></span></button>`).join('');
     $$('#scratch-row .scratch').forEach((b, i) => {
-      b.onclick = () => b.setAttribute('aria-pressed', String(b.getAttribute('aria-pressed') !== 'true'));
+      const cv = document.createElement('canvas');   // le voile à gratter : au curseur sur ordi, au doigt sur téléphone
+      cv.className = 'scratch-cv'; cv.setAttribute('aria-hidden', 'true'); b.querySelector('.zone').appendChild(cv);
+      b.onclick = e => { if (e.target === cv) return; Scratch.show(b, b.getAttribute('aria-pressed') !== 'true'); };   // le clavier (Entrée, Espace) révèle aussi
+      Scratch.bindCanvas(b, cv);
       if (animate && !reduced) b.animate([{ opacity: 0, transform:'translateY(26px) rotate(-3deg) scale(.94)' }, { opacity: 1, transform:'none' }],
         { duration: 520, delay: 120 + i * 110, easing:'cubic-bezier(.2,1.2,.4,1)', fill:'backwards' });
     });
+  }
+,
+  // révéler ou recouvrir une carte
+  show(b, on){
+    b.setAttribute('aria-pressed', String(on));
+    const cv = b.querySelector('.scratch-cv'); if (!cv) return;
+    cv.hidden = on;
+    if (!on) this.foil(cv);
+  },
+  // peindre le voile : rayures et « GRATTER ICI »
+  foil(cv){
+    const zone = cv.parentNode, w = zone.clientWidth, h = zone.clientHeight;
+    if (!w || !h) return false;
+    const d = Math.min(2, window.devicePixelRatio || 1);
+    cv.width = Math.round(w * d); cv.height = Math.round(h * d);
+    const x = cv.getContext('2d'); x.setTransform(d, 0, 0, d, 0, 0);
+    x.fillStyle = '#d9dbe6'; x.fillRect(0, 0, w, h);
+    x.strokeStyle = '#c8cbd8'; x.lineWidth = 6;
+    for (let s = -h; s < w; s += 12){ x.beginPath(); x.moveTo(s, 0); x.lineTo(s + h, h); x.stroke(); }
+    x.fillStyle = '#4b4f6a'; x.font = '700 13px ' + getComputedStyle(document.body).fontFamily;
+    x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillText('GRATTER ICI', w / 2, h / 2);
+    cv.dataset.painted = '1';
+    return true;
+  },
+  // le geste : on gratte en glissant (souris ou doigt) ; la carte se révèle quand la moitié du voile est partie
+  bindCanvas(b, cv){
+    let last = null, down = false;
+    const pt = e => { const r = cv.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
+    const scratch = (x, y) => {
+      const c = cv.getContext('2d');
+      c.save(); c.globalCompositeOperation = 'destination-out'; c.lineCap = 'round'; c.lineJoin = 'round';
+      c.lineWidth = 30; c.strokeStyle = '#000';
+      c.beginPath(); c.moveTo(last ? last[0] : x, last ? last[1] : y); c.lineTo(x, y); c.stroke(); c.restore();
+      last = [x, y];
+    };
+    cv.addEventListener('pointerdown', e => {
+      if (!cv.dataset.painted && !this.foil(cv)) return;
+      e.preventDefault(); down = true; last = null;
+      try { cv.setPointerCapture(e.pointerId); } catch(err) {}
+      const [x, y] = pt(e); scratch(x, y);
+    });
+    cv.addEventListener('pointermove', e => { if (!down) return; const [x, y] = pt(e); scratch(x, y); });
+    const end = () => { if (!down) return; down = false; last = null; if (this.uncovered(cv) >= .5) this.show(b, true); };
+    cv.addEventListener('pointerup', end);
+    cv.addEventListener('pointercancel', end);
+  },
+  // la part du voile déjà grattée (de 0 à 1)
+  uncovered(cv){
+    const data = cv.getContext('2d').getImageData(0, 0, cv.width, cv.height).data;
+    let clear = 0, n = 0;
+    for (let i = 3; i < data.length; i += 4 * 7){ n++; if (data[i] < 128) clear++; }
+    return n ? clear / n : 0;
   }
 };
 $('#scratch-new').onclick = () => { Scratch.render(true); clink(2); };
