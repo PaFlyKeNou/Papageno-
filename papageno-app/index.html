@@ -5011,11 +5011,11 @@ $('#meet-form').onsubmit = e => {
   if (normWord($('#m-word').value) !== SIGNAL.word){ m.textContent = "Ce mot n'est pas le bon. Il est écrit sur ton ticket de caisse, imprimé à la caisse."; $('#m-word').focus(); return; }
   const db = Store.load();
   const s = { name, contact: !c ? '' : isMail ? c : '@' + c.replace(/^@/, ''), city: $('#m-city').value.trim(),
-    acts: $$('#m-acts input:checked').map(i => i.value), idea: $('#m-idea').value.trim(), at: Date.now() };
+    acts: $$('#m-acts input:checked').map(i => i.value), idea: $('#m-idea').value.trim(), at: Date.now(), token: uid() };
   db.signup = s;
   Store.save(); renderMeet();
-  // la liste de l'organisatrice (Supabase) : seulement ce que la personne a rempli ; le lien Signal reste disponible même si l'envoi échoue
-  sbRpc('inscrire_rencontre', { p_name: s.name, p_contact: s.contact, p_city: s.city, p_acts: s.acts, p_idea: s.idea })
+  // la liste de l'organisatrice (Supabase) : seulement ce que la personne a rempli, et un jeton secret pour pouvoir se désinscrire ; le lien Signal reste disponible même si l'envoi échoue
+  sbRpc('inscrire_rencontre', { p_name: s.name, p_contact: s.contact, p_city: s.city, p_acts: s.acts, p_idea: s.idea, p_token: s.token })
     .catch(() => toast('Ta demande n\'a pas pu être envoyée à l\'organisatrice. Écris-lui dans Signal.'));
   // pas d'e-mail : le mot de la boutique ouvre tout de suite le lien du groupe Signal (la demande arrive dans Signal, où l'organisatrice valide chaque personne)
   m.className = 'msg';
@@ -5025,6 +5025,8 @@ $('#meet-form').onsubmit = e => {
 // Désinscription : toujours disponible, effet immédiat (droit à l'effacement)
 $('#m-leave').onclick = () => {
   const db = Store.load(), had = !!db.signup;
+  // efface aussi la ligne dans la liste de l'organisatrice, grâce au jeton gardé sur cet appareil
+  if (had && db.signup.token) sbRpc('desinscrire_rencontre', { p_token: db.signup.token }).catch(() => toast('Tes données locales sont effacées, mais la suppression sur le serveur a échoué. Écris à l\'organisatrice dans Signal.'));
   delete db.signup; Store.save();
   $('#meet-form').reset(); $('#m-minor-ok-l').hidden = true;  // l'idée proposée est effacée avec le reste
   const m = $('#m-msg'); m.hidden = false; m.className = 'msg';
