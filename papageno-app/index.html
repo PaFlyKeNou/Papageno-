@@ -215,6 +215,8 @@ h1,h2,h3{text-wrap:balance}
 .t-note{margin:10px 0 0;font-style:italic;white-space:pre-wrap;overflow-wrap:anywhere}
 .barcode{height:44px;margin:16px 6px 4px}
 .t-thanks{text-align:center;font-size:12px;letter-spacing:.04em}
+.t-word{margin:12px 0 4px;border:1.5px dashed var(--ink);padding:6px 8px;text-align:center;font-size:12.5px;overflow-wrap:anywhere}
+.t-word b{font-size:15px;letter-spacing:.06em}
 .stamp{position:absolute;right:16px;bottom:22px;rotate:-12deg;border:4px double var(--tomato-deep);color:var(--tomato-deep);font-family:var(--display);font-size:32px;line-height:1;
   padding:6px 14px 2px;opacity:0;mix-blend-mode:multiply;pointer-events:none}
 .ticket.has-stamp{padding-bottom:86px}   /* la place du tampon, en bas à droite : il ne cache aucune ligne */
@@ -2495,7 +2497,7 @@ body::before{content:"";position:fixed;left:0;right:0;top:0;height:env(safe-area
           <div class="faq">
             <details><summary>Je ne connais personne.</summary><p>C'est le cas de presque tout le monde la première fois. Le cercle est fait pour ça.</p></details>
             <details><summary>Je suis obligé·e de parler&nbsp;?</summary><p>Non. Tu peux écouter du début à la fin. Être là, c'est déjà beaucoup.</p></details>
-            <details><summary>Comment j'entre dans le groupe Signal&nbsp;?</summary><p>Tape le mot de passe que tu trouves dans la boutique. Le lien du groupe s'affiche alors. Chaque demande est validée par l'organisatrice avant que tu entres.</p>
+            <details><summary>Comment j'entre dans le groupe Signal&nbsp;?</summary><p>Tape le mot de passe. Il est écrit sur ton ticket de caisse, imprimé à la caisse (même si tu n'as acheté aucun produit). Le lien du groupe s'affiche alors. Chaque demande est validée par l'organisatrice avant que tu entres.</p>
 <div class="sig-join"><label class="fld" for="sig-word">Mot de passe de la boutique<input id="sig-word" maxlength="40" autocomplete="off" autocapitalize="characters" spellcheck="false"></label>
 <button type="button" class="btn" id="sig-go">Voir le lien</button>
 <p class="note" id="sig-msg" aria-live="polite"></p>
@@ -3915,6 +3917,7 @@ function receiptHTML(r, opt = {}){
       <button type="button" class="report" data-id="${r.id}">Signaler ce ticket</button>` : ''}
     </div>` : ''}
     <div class="barcode" aria-hidden="true" style="background:${barcodeCSS(r.no)}"></div>
+    ${opt.stamp ? `<div class="t-word">MOT DE LA BOUTIQUE (groupe Signal)&nbsp;: <b>${SIGNAL.word}</b></div>` : ''}
     <div class="t-thanks">MERCI DE VOTRE PASSAGE · PRENEZ SOIN DE VOUS</div>
   </article>`;
 }
